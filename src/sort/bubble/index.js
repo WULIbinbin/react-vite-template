@@ -28,7 +28,5 @@ function BubbleSort(arr) {
       }
     }
   }
-  console.table(arr);
+  console.log(arr);
 }
-
-BubbleSort([90, 12, 5, 64, 32, 44, 78, 19, 1, 9, 27, 83, 56]);

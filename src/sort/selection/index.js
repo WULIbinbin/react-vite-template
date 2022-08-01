@@ -37,4 +37,4 @@ function SelectionSort(arr = []) {
   console.table(arr);
 }
 
-SelectionSort([90, 12, 5, 64, 32, 44, 78, 19, 1, 9, 27, 83, 56]);
+// SelectionSort([90, 12, 5, 64, 32, 44, 78, 19, 1, 9, 27, 83, 56]);
