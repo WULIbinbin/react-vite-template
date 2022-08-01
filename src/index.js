@@ -1,0 +1,1 @@
+import './heap/binaryHeap/minHeap'
