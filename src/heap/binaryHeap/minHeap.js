@@ -4,9 +4,6 @@ class MinHeap {
     this.heap = [];
   }
 
-  // 插入节点
-  insert() {}
-
   // 获取左节点
   getLeftIndex(index) {
     return index * 2 + 1;
@@ -28,19 +25,43 @@ class MinHeap {
   getHeapArray() {
     return this.heap;
   }
+
+  // 插入节点
+  insert() {}
+
+  // 实现上移函数
+  siftUp(index) {
+
+  }
+
+  // 下移操作
+  siftDown(index){
+
+  }
+
+
+
+  // 实现交换数组元素位置函数
+  swap(array =[], exchangeElement = 0, exchangedElement = 0){
+    const temp = array[exchangeElement]
+    array[exchangeElement] = array[exchangedElement]
+    array[exchangedElement] = temp
+  }
+
+  // 寻找堆的最小值
+  findMinimum(){
+
+  }
+
+  // 判断堆是否为空
+  isEmpty(){
+
+  }
+
+  // 导出堆的最小值
+  extract(){
+
+  }
 }
 
-const minHeap = new MinHeap();
-minHeap.insert(13);
-minHeap.insert(6);
-minHeap.insert(2);
-minHeap.insert(18);
-minHeap.insert(5);
-minHeap.insert(12);
-minHeap.insert(9);
-minHeap.insert(10);
-minHeap.insert(1);
-minHeap.insert(4);
-minHeap.insert(21);
-
-console.log(minHeap.getHeapArray());
+window.MinHeap = MinHeap
