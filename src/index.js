@@ -1,4 +1,3 @@
-import './tools'
 import './heap/binaryHeap/minHeap'
 
 

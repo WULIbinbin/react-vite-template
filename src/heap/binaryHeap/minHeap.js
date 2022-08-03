@@ -1,7 +1,9 @@
+import { defaultCompare, COMPARE } from "../../utils/index";
 class MinHeap {
   heap = [];
   constructor() {
     this.heap = [];
+    this.compareFn = defaultCompare;
   }
 
   // 获取左节点
@@ -19,6 +21,7 @@ class MinHeap {
     if (index === 0) {
       return undefined;
     }
+    // floor去掉小数点取整
     return Math.floor((index - 1) / 2);
   }
 
@@ -27,41 +30,38 @@ class MinHeap {
   }
 
   // 插入节点
-  insert() {}
+  insert(value) {
+    if (value != null) {
+      // 从最末端节点插入
+      this.heap.push(value);
+      // 开始上移
+      this.siftUp(this.heap.length - 1);
+      return true;
+    }
+    return false;
+  }
 
   // 实现上移函数
-  siftUp(index) {
-
-  }
+  siftUp(index) {}
 
   // 下移操作
-  siftDown(index){
-
-  }
-
-
+  siftDown(index) {}
 
   // 实现交换数组元素位置函数
-  swap(array =[], exchangeElement = 0, exchangedElement = 0){
-    const temp = array[exchangeElement]
-    array[exchangeElement] = array[exchangedElement]
-    array[exchangedElement] = temp
+  swap(array = [], exchangeElement = 0, exchangedElement = 0) {
+    const temp = array[exchangeElement];
+    array[exchangeElement] = array[exchangedElement];
+    array[exchangedElement] = temp;
   }
 
   // 寻找堆的最小值
-  findMinimum(){
-
-  }
+  findMinimum() {}
 
   // 判断堆是否为空
-  isEmpty(){
-
-  }
+  isEmpty() {}
 
   // 导出堆的最小值
-  extract(){
-
-  }
+  extract() {}
 }
 
-window.MinHeap = MinHeap
+window.MinHeap = MinHeap;
