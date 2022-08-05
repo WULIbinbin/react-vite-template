@@ -96,12 +96,14 @@ export class MinHeap {
       array[right],
       size
     );
+    // 如果当前要操作节点的左子节点大于其父节点，更新element的值
     if (
       left < size &&
       this.compareFn(array[left], array[element]) === COMPARE.BIGGER_THAN
     ) {
       element = left;
     }
+    // 如果当前要操作节点的右子节点大于其父节点，更新element的值
     if (
       right < size &&
       this.compareFn(array[right], array[element]) === COMPARE.BIGGER_THAN
@@ -114,10 +116,10 @@ export class MinHeap {
       this.heapify(array, size, element);
       return true;
     }
-    console.log('不用换')
+    console.log("不用换");
   }
 
-  // 堆构建，反向排序，最后一位是最大/最小值
+  // 堆构建：根据父级节点的层数反向排序，最后一位是最大/最小值
   buildHeap(array = this.heap) {
     console.warn("#开始构建#");
     const last = array.length - 1;
@@ -125,7 +127,7 @@ export class MinHeap {
     for (let i = lastParent; i >= 0; i--) {
       this.heapify(array, array.length, i);
     }
-    console.log(this.getHeapArray())
+    console.log(this.getHeapArray());
   }
 
   // 堆排序，
@@ -133,7 +135,7 @@ export class MinHeap {
     this.buildHeap();
     console.warn("#开始排序#");
     for (let i = array.length - 1; i >= 0; i--) {
-      console.log(i)
+      console.log(i);
       this.swap(array, i, 0);
       this.heapify(array, i, 0);
     }
