@@ -55,9 +55,6 @@ export class MinHeap {
   // 实现上移函数
   siftUp(currentIndex) {
     let parentIndex = this.getParentIndex(currentIndex);
-    const isParentBigger =
-      this.compareFn(this.heap[parentIndex], this.heap[currentIndex]) ===
-      COMPARE.BIGGER_THAN;
     while (
       currentIndex > 0 &&
       this.compareFn(this.heap[parentIndex], this.heap[currentIndex]) ===
@@ -73,8 +70,6 @@ export class MinHeap {
       currentIndex = parentIndex;
       parentIndex = this.getParentIndex(currentIndex);
       console.log("换上下节点了");
-      this.heapify(this.heap, this.size(), currentIndex);
-      this.heapify(this.heap, this.size(), parentIndex);
     }
   }
 
@@ -88,19 +83,40 @@ export class MinHeap {
     array[exchangedElement] = temp;
   }
 
-  // 交换左右节点
-  heapify(array = [], size = 0, index = 0) {
+  // 交换节点
+  heapify(array = [], size = this.size(), index = 0) {
+    if (index >= size || size < 3) {
+      return false;
+    }
+    let element = index;
     let left = this.getLeftIndex(index);
     let right = this.getRightIndex(index);
-    console.log("左节点", array[left], "右节点", array[right]);
-    if (size < 3 || !array[right]) return;
-    if (this.compareFn(array[left], array[right]) === COMPARE.BIGGER_THAN) {
-      console.log("换左右节点了");
-      this.swap(this.heap, left, right);
-      return;
+    console.log(
+      "当前节点",
+      array[index],
+      "左节点",
+      array[left],
+      "右节点",
+      array[right]
+    );
+    if (
+      left < size &&
+      this.compareFn(array[left], array[element]) === COMPARE.BIGGER_THAN
+    ) {
+      element = left;
     }
-    // this.heapify(array, size, this.getParentIndex(index));
-    console.log("左右无需替换");
+    if (
+      right < size &&
+      this.compareFn(array[right], array[element]) === COMPARE.BIGGER_THAN
+    ) {
+      element = right;
+    }
+    if (element !== index) {
+      console.log("换节点了", array[element], "<===>", array[index]);
+      this.swap(this.heap, element, index);
+      this.heapify(this.heap, size, element);
+      return true;
+    }
   }
 
   // 寻找堆的最小值
