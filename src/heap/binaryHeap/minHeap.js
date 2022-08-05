@@ -26,6 +26,7 @@ export class MinHeap {
   }
 
   getHeapArray() {
+    console.warn("最终结果:===================>", `${[...this.heap]}`);
     return this.heap;
   }
 
@@ -35,12 +36,7 @@ export class MinHeap {
 
   // 插入节点
   insert(value) {
-    console.log(
-      "====================================",
-      this.heap,
-      "插入值:",
-      value
-    );
+    console.log(this.heap, "插入值:================>", value);
     if (value != null) {
       // 从最末端节点插入
       this.heap.push(value);
@@ -85,7 +81,7 @@ export class MinHeap {
 
   // 交换节点
   heapify(array = [], size = this.size(), index = 0) {
-    if (index >= size || size < 3) {
+    if (index >= size) {
       return false;
     }
     let element = index;
@@ -97,7 +93,8 @@ export class MinHeap {
       "左节点",
       array[left],
       "右节点",
-      array[right]
+      array[right],
+      size
     );
     if (
       left < size &&
@@ -113,9 +110,32 @@ export class MinHeap {
     }
     if (element !== index) {
       console.log("换节点了", array[element], "<===>", array[index]);
-      this.swap(this.heap, element, index);
-      this.heapify(this.heap, size, element);
+      this.swap(array, element, index);
+      this.heapify(array, size, element);
       return true;
+    }
+    console.log('不用换')
+  }
+
+  // 堆构建，反向排序，最后一位是最大/最小值
+  buildHeap(array = this.heap) {
+    console.warn("#开始构建#");
+    const last = array.length - 1;
+    const lastParent = this.getParentIndex(last);
+    for (let i = lastParent; i >= 0; i--) {
+      this.heapify(array, array.length, i);
+    }
+    console.log(this.getHeapArray())
+  }
+
+  // 堆排序，
+  sortHeap(array = this.heap) {
+    this.buildHeap();
+    console.warn("#开始排序#");
+    for (let i = array.length - 1; i >= 0; i--) {
+      console.log(i)
+      this.swap(array, i, 0);
+      this.heapify(array, i, 0);
     }
   }
 
