@@ -1,4 +1,4 @@
-import { MinHeap } from "./heap/binaryHeap/minHeap";
+import { MinHeap } from "./minHeap";
 
 const minHeap = new MinHeap();
 minHeap.insert(13);

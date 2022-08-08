@@ -91,8 +91,10 @@ export class MinHeap {
       "当前节点",
       array[index],
       "左节点",
+      left,
       array[left],
       "右节点",
+      right,
       array[right],
       size
     );
