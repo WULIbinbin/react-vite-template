@@ -34,7 +34,7 @@ function preOrderTraverse(root, x, y, distance) {
     drawLeftLine(x, y + unit, distance);
     preOrderTraverse(
       root.left,
-      x - (distance + 1) * unit,
+      x - (distance+1) * unit,
       y + 3 * unit,
       distance / 2 - 1
     );
