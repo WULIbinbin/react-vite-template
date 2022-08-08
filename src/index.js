@@ -8,7 +8,7 @@ const canvasWidth = 750
 const deep = getDeepOfTree(tree);
 let distance = 1;
 for (let i = 2; i < deep; i++) {
-  distance = (distance+1) * 2 - 2;
+  distance = (distance + 1) * 2 - 2;
 }
 const unit = canvasWidth / (Math.pow(2, deep - 1) * 4 + 8);
 console.log(unit, deep, distance);
@@ -29,12 +29,13 @@ function getDeepOfTree(root) {
 }
 
 function preOrderTraverse(root, x, y, distance) {
-  drawRect(root.value, x, y); // 绘制节点
+  // 绘制节点
+  drawArc(root.value, x, y);
   if (root.left) {
     drawLeftLine(x, y + unit, distance);
     preOrderTraverse(
       root.left,
-      x - (distance+1) * unit,
+      x - (distance + 1) * unit,
       y + 3 * unit,
       distance / 2 - 1
     );
@@ -48,12 +49,18 @@ function preOrderTraverse(root, x, y, distance) {
       distance / 2 - 1
     );
   }
+
 }
 
-function drawRect(text, x, y) {
-  ctx.fillRect(x, y, unit, unit);
-  ctx.font = "14px serif";
-  ctx.fillText(text, x + unit, y + unit);
+function drawArc(text, x, y) {
+  ctx.beginPath()
+  ctx.arc(x, y, unit, unit, 2 * Math.PI, true);
+  ctx.fillStyle = "#e2e2e2";
+  ctx.fill()
+  ctx.closePath()
+  ctx.font = "18px serif";
+  ctx.fillStyle = "#333333";
+  ctx.fillText(text, x - 4, y + unit / 2);
 }
 
 function drawLeftLine(x, y, distance) {
