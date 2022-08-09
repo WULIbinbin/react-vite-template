@@ -1,4 +1,5 @@
 import { BinaryTree } from "./index";
+import { init } from "./view";
 
 const binaryTree = new BinaryTree();
 
@@ -11,10 +12,11 @@ binaryTree.insert(2);
 binaryTree.insert(12);
 binaryTree.insert(6);
 
-console.log(binaryTree);
+console.log(binaryTree.root);
 
-console.log(binaryTree.inOrderTraverse());
-console.log(binaryTree.postOrderTraverse());
+console.log(binaryTree.preOrderTraverse());
 
 const { root } = binaryTree;
-export const tree = root;
+export default function run() {
+  init(root);
+}
