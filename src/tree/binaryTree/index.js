@@ -40,6 +40,12 @@ export class BinaryTree {
     this.root = null;
   }
 
+  init(valueArray = []){
+    valueArray.forEach((value)=>{
+      this.insert(value)
+    })
+  }
+
   insert(value) {
     let newNode = new Node(value);
     this.root === null

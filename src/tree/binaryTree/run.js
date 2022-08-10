@@ -3,21 +3,9 @@ import { init } from "./view";
 
 const binaryTree = new BinaryTree();
 
-binaryTree.insert(10);
-binaryTree.insert(14);
-binaryTree.insert(5);
-binaryTree.insert(4);
-binaryTree.insert(7);
-binaryTree.insert(2);
-binaryTree.insert(12);
-binaryTree.insert(21);
-binaryTree.insert(17);
-binaryTree.insert(1);
-binaryTree.insert(6);
-binaryTree.insert(8);
-binaryTree.insert(24);
-binaryTree.insert(18);
-binaryTree.insert(9);
+binaryTree.init([12, 4, 5, 16, 8, 14, 2, 1, 31, 21, 17, 27, 9, 6]);
+
+binaryTree.insert(15);
 binaryTree.insert(13);
 
 console.log(binaryTree.root);
@@ -26,5 +14,6 @@ console.log(binaryTree.preOrderTraverse());
 
 const { root } = binaryTree;
 export default function run() {
+  document.title = "二叉搜索树视图";
   init(root);
 }
