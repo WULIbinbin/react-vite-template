@@ -6,7 +6,8 @@
   "scripts": {
     "test:sort": "jest ./__test__/sort.test.js",
     "minheap": "node ./src/heap/binaryHeap/minheap.js",
-    "s": "webpack serve --open"
+    "s": "webpack serve --open",
+    "dev": "vite"
   },
   "author": "WULIbinbin",
   "license": "ISC",
@@ -19,6 +20,7 @@
   },
   "dependencies": {
     "@antv/g": "^5.7.3",
-    "@antv/g-canvas": "^1.7.3"
+    "@antv/g-canvas": "^1.7.3",
+    "vite": "^3.0.5"
   }
 }
