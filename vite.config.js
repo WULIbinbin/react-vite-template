@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/",
+  base: "./",
   mode: "development",
+  output:'dist',
+  sourceMap:true,
 });
