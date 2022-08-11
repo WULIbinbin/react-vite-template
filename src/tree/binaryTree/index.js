@@ -15,9 +15,9 @@ function inOrderTraverseNode(node, cb) {
   }
 }
 
- // 先序遍历辅助方法
- function preOrderTraverseNode(node, cb) {
-  if(node !== null) {
+// 先序遍历辅助方法
+function preOrderTraverseNode(node, cb) {
+  if (node !== null) {
     cb(node.value);
     preOrderTraverseNode(node.left, cb);
     preOrderTraverseNode(node.right, cb);
@@ -26,7 +26,7 @@ function inOrderTraverseNode(node, cb) {
 
 // 后序遍历辅助方法
 function postOrderTraverseNode(node, cb) {
-  if(node !== null){
+  if (node !== null) {
     postOrderTraverseNode(node.left, cb);
     postOrderTraverseNode(node.right, cb);
     cb(node.value);
@@ -40,10 +40,10 @@ export class BinaryTree {
     this.root = null;
   }
 
-  init(valueArray = []){
-    valueArray.forEach((value)=>{
-      this.insert(value)
-    })
+  init(valueArray = []) {
+    valueArray.forEach((value) => {
+      this.insert(value);
+    });
   }
 
   insert(value) {
@@ -67,28 +67,28 @@ export class BinaryTree {
 
   // 中序遍历 --- 以从最小到最大的顺序访问所有节点
   inOrderTraverse() {
-    const result = []
-    inOrderTraverseNode(this.root, (value)=>{
-      result.push(value)
+    const result = [];
+    inOrderTraverseNode(this.root, (value) => {
+      result.push(value);
     });
-    return result
+    return result;
   }
 
   // 先序遍历 --- 优先于后代节点的顺序访问每个节点
-  preOrderTraverse(){
-    const result = []
-    preOrderTraverseNode(this.root, (value)=>{
-      result.push(value)
+  preOrderTraverse() {
+    const result = [];
+    preOrderTraverseNode(this.root, (value) => {
+      result.push(value);
     });
-    return result
+    return result;
   }
 
   // 后序遍历 --- 先访问后代节点，再访问节点本身
-  postOrderTraverse(){
-    const result = []
-    postOrderTraverseNode(this.root, (value)=>{
-      result.push(value)
+  postOrderTraverse() {
+    const result = [];
+    postOrderTraverseNode(this.root, (value) => {
+      result.push(value);
     });
-    return result
+    return result;
   }
 }

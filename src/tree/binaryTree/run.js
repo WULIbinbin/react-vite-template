@@ -11,6 +11,8 @@ binaryTree.insert(13);
 console.log(binaryTree.root);
 
 console.log(binaryTree.preOrderTraverse());
+console.log(binaryTree.inOrderTraverse());
+
 
 const { root } = binaryTree;
 export default function run() {

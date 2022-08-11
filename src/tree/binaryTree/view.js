@@ -1,8 +1,8 @@
-import { Canvas, CanvasEvent, Circle, Text, Line, Rect } from "@antv/g";
+import { Canvas, Circle, Text, Line, Rect } from "@antv/g";
 import { Renderer } from "@antv/g-canvas";
 
 export async function init(tree) {
-  const unit = 60;
+  const unit = 50;
   const deep = getDeepOfTree(tree);
   let canvasWidth = 800;
   let distance = (deep - 1) ** 2;
@@ -11,7 +11,7 @@ export async function init(tree) {
   const nodeWidth = unit;
   const rootX = Math.ceil(unitNum / 2) * unit - unit / 2;
   const rootY = unit + unit / 2;
-  console.log(deep, distance, unit);
+  console.log(deep, distance, unit,canvasWidth);
   const canvas = new Canvas({
     container: "container",
     width: canvasWidth,
@@ -66,6 +66,7 @@ export async function init(tree) {
     return left > right ? left + 1 : right + 1;
   }
 
+  // 先序遍历
   function preOrderTraverse(root, x, y, distance) {
     // 绘制节点
     drawNode(root.value, x, y);
