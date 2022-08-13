@@ -23,12 +23,14 @@ export class BinaryTree {
     this.root = null;
   }
 
+  // 利用数组插入多个值
   init(valueArray = []) {
     valueArray.forEach((value) => {
       this.insert(value);
     });
   }
 
+  // 插入节点
   insert(value) {
     let newNode = new Node(value);
     this.root === null
@@ -36,6 +38,7 @@ export class BinaryTree {
       : this.insertNode(this.root, newNode);
   }
 
+  // 递归插入节点
   insertNode(node, newNode) {
     if (newNode.value < node.value) {
       node.left === null
