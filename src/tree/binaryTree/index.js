@@ -1,35 +1,18 @@
+import {
+  inOrderTraverseNode,
+  preOrderTraverseNode,
+  postOrderTraverseNode,
+  searchValue,
+  maxNode,
+  minNode,
+  removeNode,
+} from "./methods";
+
 class Node {
   constructor(value) {
     this.value = value;
     this.left = null;
     this.right = null;
-  }
-}
-
-// 中序遍历辅助函数
-function inOrderTraverseNode(node, cb) {
-  if (node !== null) {
-    inOrderTraverseNode(node.left, cb);
-    cb(node.value);
-    inOrderTraverseNode(node.right, cb);
-  }
-}
-
-// 先序遍历辅助方法
-function preOrderTraverseNode(node, cb) {
-  if (node !== null) {
-    cb(node.value);
-    preOrderTraverseNode(node.left, cb);
-    preOrderTraverseNode(node.right, cb);
-  }
-}
-
-// 后序遍历辅助方法
-function postOrderTraverseNode(node, cb) {
-  if (node !== null) {
-    postOrderTraverseNode(node.left, cb);
-    postOrderTraverseNode(node.right, cb);
-    cb(node.value);
   }
 }
 
@@ -90,5 +73,21 @@ export class BinaryTree {
       result.push(value);
     });
     return result;
+  }
+
+  getMin() {
+    return minNode(this.root);
+  }
+
+  getMax() {
+    return maxNode(this.root);
+  }
+
+  search(value) {
+    return searchValue(this.root, value);
+  }
+
+  remove(value) {
+    return removeNode(this.root, value);
   }
 }
