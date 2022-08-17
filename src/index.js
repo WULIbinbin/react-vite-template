@@ -1,3 +1,5 @@
-import binaryTreeRun from "./tree/binaryTree/run";
+// import binaryTreeRun from "./tree/binaryTree/run";
+import "./link/linkedList/run";
 
-binaryTreeRun()
+
+// binaryTreeRun()
