@@ -7,9 +7,14 @@ import {
   minNode,
   removeNode,
 } from "./methods";
+import { NodeType } from "./types";
 
 class Node {
-  constructor(value) {
+  value: number | null;
+  left: NodeType | null;
+  right: NodeType;
+
+  constructor(value: number) {
     this.value = value;
     this.left = null;
     this.right = null;
@@ -17,7 +22,7 @@ class Node {
 }
 
 export class BinaryTree {
-  root = null;
+  root: NodeType | null;
 
   constructor() {
     this.root = null;
@@ -31,7 +36,7 @@ export class BinaryTree {
   }
 
   // 插入节点
-  insert(value) {
+  insert(value: number) {
     let newNode = new Node(value);
     this.root === null
       ? (this.root = newNode)
@@ -39,7 +44,7 @@ export class BinaryTree {
   }
 
   // 递归插入节点
-  insertNode(node, newNode) {
+  insertNode(node: NodeType, newNode: NodeType) {
     if (newNode.value < node.value) {
       node.left === null
         ? (node.left = newNode)
@@ -53,7 +58,7 @@ export class BinaryTree {
 
   // 中序遍历 --- 以从最小到最大的顺序访问所有节点
   inOrderTraverse() {
-    const result = [];
+    const result:Array<number> = [];
     inOrderTraverseNode(this.root, (value) => {
       result.push(value);
     });
@@ -62,7 +67,7 @@ export class BinaryTree {
 
   // 先序遍历 --- 优先于后代节点的顺序访问每个节点
   preOrderTraverse() {
-    const result = [];
+    const result:Array<number> = [];
     preOrderTraverseNode(this.root, (value) => {
       result.push(value);
     });
@@ -71,7 +76,7 @@ export class BinaryTree {
 
   // 后序遍历 --- 先访问后代节点，再访问节点本身
   postOrderTraverse() {
-    const result = [];
+    const result:Array<number> = [];
     postOrderTraverseNode(this.root, (value) => {
       result.push(value);
     });
@@ -86,11 +91,11 @@ export class BinaryTree {
     return maxNode(this.root);
   }
 
-  search(value) {
+  search(value: number) {
     return searchValue(this.root, value);
   }
 
-  remove(value) {
+  remove(value: number) {
     return removeNode(this.root, value);
   }
 }

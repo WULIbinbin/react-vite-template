@@ -1,8 +1,8 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
+import Router from "@/router";
 
 function App() {
-  return <div>2333</div>;
+  return <Router></Router>;
 }
 
 const container = createRoot(document.getElementById("container"));

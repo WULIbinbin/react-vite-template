@@ -1,5 +1,6 @@
+import { NodeType } from "./types";
 // 中序遍历辅助函数
-export function inOrderTraverseNode(node, cb) {
+export function inOrderTraverseNode(node: NodeType, cb) {
   if (node !== null) {
     inOrderTraverseNode(node.left, cb);
     cb(node.value);
@@ -8,7 +9,7 @@ export function inOrderTraverseNode(node, cb) {
 }
 
 // 先序遍历辅助方法
-export function preOrderTraverseNode(node, cb) {
+export function preOrderTraverseNode(node: NodeType, cb) {
   if (node !== null) {
     cb(node.value);
     preOrderTraverseNode(node.left, cb);
@@ -17,7 +18,7 @@ export function preOrderTraverseNode(node, cb) {
 }
 
 // 后序遍历辅助方法
-export function postOrderTraverseNode(node, cb) {
+export function postOrderTraverseNode(node: NodeType, cb) {
   if (node !== null) {
     postOrderTraverseNode(node.left, cb);
     postOrderTraverseNode(node.right, cb);
@@ -26,7 +27,7 @@ export function postOrderTraverseNode(node, cb) {
 }
 
 // 获取最小值，是二叉搜索树中最左侧分支的最后一个节点
-export function minNode(node) {
+export function minNode(node: NodeType): number {
   if (node) {
     while (node && node.left != null) {
       node = node.left;
@@ -37,7 +38,7 @@ export function minNode(node) {
 }
 
 // 获取最大值，是二叉搜索树中最右侧分支的最后一个节点
-export function maxNode(node) {
+export function maxNode(node: NodeType): number {
   if (node) {
     while (node && node.right != null) {
       node = node.right;
@@ -48,7 +49,7 @@ export function maxNode(node) {
 }
 
 // 搜索某个值
-export function searchValue(node, value) {
+export function searchValue(node: NodeType, value: number): boolean {
   if (!value || !node) return false;
 
   if (node.value > value) {
@@ -61,7 +62,7 @@ export function searchValue(node, value) {
 }
 
 // 删除某个节点
-export function removeNode(node, value) {
+export function removeNode(node: NodeType, value: number): NodeType {
   if (!value || !node) return null;
 
   if (node.value > value) {
