@@ -1,8 +1,9 @@
-import { Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import Tabbar from "./tabbar/index";
 
 export default function Index(props) {
-  console.log(props);
+
   return (
     <div>
       <Tabbar />
