@@ -16,8 +16,15 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@":'/src/',
+      "@": "/src/",
       pages: resolve(__dirname, "/src/pages"),
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
     },
   },
 });
