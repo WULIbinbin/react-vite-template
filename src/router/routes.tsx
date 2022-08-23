@@ -1,7 +1,11 @@
-import Layout from "@/layout/index";
-import Index from "@/views/index/index";
-import Tree from "@/views/binaryTree/index";
 import { Navigate, useRoutes } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import Layout from "@/layout/index";
+
+const Index = lazy(() => import("@/views/index/index"));
+const Order = lazy(() => import("@/views/order/index"));
+const InvoiceQuery = lazy(() => import("@/views/invoice/invoice-query/index"));
+const InvoiceCheck = lazy(() => import("@/views/invoice/invoice-check/index"));
 
 export default function RouteMain() {
   const routes = [
@@ -11,11 +15,35 @@ export default function RouteMain() {
       children: [
         {
           path: "/index",
-          element: <Index />,
+          element: (
+            <Suspense>
+              <Index />
+            </Suspense>
+          ),
         },
         {
-          path: "/tree",
-          element: <Tree />,
+          path: "/invoice-check",
+          element: (
+            <Suspense>
+              <InvoiceCheck />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/invoice-query",
+          element: (
+            <Suspense>
+              <InvoiceQuery />
+            </Suspense>
+          ),
+        },
+        {
+          path: "/order",
+          element: (
+            <Suspense>
+              <Order />
+            </Suspense>
+          ),
         },
       ],
     },

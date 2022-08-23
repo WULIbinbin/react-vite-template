@@ -1,15 +1,26 @@
-import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Tabbar from "./tabbar/index";
+import { Layout } from "tdesign-react";
+import Sidebar from "./sidebar/index";
 
-export default function Index(props) {
+import "./index.less";
 
+const { Header, Content, Footer, Aside } = Layout;
+
+export default function Index() {
   return (
-    <div>
-      <Tabbar />
-      <div>
-        <Outlet></Outlet>
-      </div>
-    </div>
+    <Layout>
+      <Header></Header>
+      <Layout>
+        <Aside>
+          <Sidebar />
+        </Aside>
+        <Layout>
+          <Content>
+            <Outlet></Outlet>
+          </Content>
+          <Footer></Footer>
+        </Layout>
+      </Layout>
+    </Layout>
   );
 }

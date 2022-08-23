@@ -4,7 +4,7 @@ export default [
     to: "/index",
   },
   {
-    name: "Tree",
-    to: "/tree",
+    name: "Order",
+    to: "/order",
   },
 ];

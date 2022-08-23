@@ -1,5 +1,5 @@
 export default function Index(){
   return (
-    <div>tree</div>
+    <div>invoice1</div>
   )
 }
