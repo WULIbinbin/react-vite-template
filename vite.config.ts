@@ -24,9 +24,8 @@ export default defineConfig({
     preprocessorOptions: {
       less: {
         modifyVars: {
-          hack: `true; @import (reference) "${resolve(
-            "src/styles/var.less"
-          )}";`,
+          hack: `true; @import (reference) "${resolve("src/styles/var.less")}"; 
+          @import (reference) "${resolve("src/styles/mixins.less")}";`,
         },
         javascriptEnabled: true,
       },

@@ -1,26 +1,53 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { Layout } from "tdesign-react";
+import { useContext, useState } from "react";
+import { Outlet } from "react-router-dom";
+import { Layout, Row, Col } from "tdesign-react";
 import Sidebar from "./sidebar/index";
-
-import "./index.less";
-
+import Topbar from "./topbar/index";
+import { LayoutContext, Theme } from "./context";
 const { Header, Content, Footer, Aside } = Layout;
 
 export default function Index() {
+  const [theme, setTheme] = useState(Theme.light);
+
+  function setDarkTheme(value: boolean) {
+    setTheme(value ? Theme.dark : Theme.light);
+    if (value) {
+      document.documentElement.setAttribute("theme-mode", "dark");
+    } else {
+      document.documentElement.removeAttribute("theme-mode");
+    }
+  }
+  
   return (
-    <Layout>
-      <Header></Header>
-      <Layout>
-        <Aside>
-          <Sidebar />
-        </Aside>
+    <LayoutContext.Provider
+      value={{
+        theme,
+        setDarkTheme,
+      }}
+    >
+      <Layout className="g-layout">
+        <Header>
+          <Row className="g-header">
+            <Col className="g-header-left">
+              <h3>WEB</h3>
+            </Col>
+            <Col className="g-header-right">
+              <Topbar />
+            </Col>
+          </Row>
+        </Header>
         <Layout>
-          <Content>
-            <Outlet></Outlet>
-          </Content>
-          <Footer></Footer>
+          <Aside>
+            <Sidebar />
+          </Aside>
+          <Layout>
+            <Content className="g-content">
+              <Outlet></Outlet>
+            </Content>
+            <Footer className="g-footer">我是底部</Footer>
+          </Layout>
         </Layout>
       </Layout>
-    </Layout>
+    </LayoutContext.Provider>
   );
 }

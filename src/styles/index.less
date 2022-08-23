@@ -1,2 +1,48 @@
-@import './var.less';
-@import './reset.less';
+@import "./var.less";
+@import "./reset.less";
+
+html,
+body,
+#container {
+  height: 100%;
+  width: 100%;
+}
+
+.@{prefix} {
+  &-layout {
+    height: 100%;
+    width: 100%;
+  }
+  &-header {
+    &-left {
+      .flex-centered();
+      height: @headerHeight;
+      width: 232px;
+      border-width: 0 1px 1px 0;
+      border-color: var(--td-gray-color-5);
+      border-style: dashed;
+    }
+    &-right {
+      flex: 1;
+      height: @headerHeight;
+      .t-menu {
+        .flex-row-center-end();
+        margin-right: 16px;
+      }
+      span {
+        font-size: 14px;
+        color: var(--g-font-color-1);
+      }
+    }
+  }
+  &-footer {
+    .flex-centered();
+  }
+  &-content {
+    padding: 16px;
+  }
+  &-container {
+    background-color: var(--g-container-bg);
+    padding: 16px;
+  }
+}

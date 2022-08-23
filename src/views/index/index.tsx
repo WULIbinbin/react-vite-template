@@ -1,3 +1,9 @@
+import Container from "@/layout/container";
+
 export default function Index() {
-  return <div>Index</div>;
+  return (
+    <Container>
+      <div>Index</div>
+    </Container>
+  );
 }

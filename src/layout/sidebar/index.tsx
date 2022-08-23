@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 import sidebar from "@/config/sidebar";
 import { Menu } from "tdesign-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import {LayoutContext} from '../context'
 
 const { MenuItem, SubMenu } = Menu;
 
@@ -28,8 +29,11 @@ export default function Index() {
   const [active, setActive] = useState("");
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const layout = useContext(LayoutContext)
+
 
   useEffect(() => {
+    console.log(layout)
     if (
       sidebar.findIndex(({ to }) => {
         return to.includes(pathname);
@@ -45,7 +49,7 @@ export default function Index() {
   }
 
   return (
-    <Menu value={active} onChange={handleChange}>
+    <Menu value={active} theme={layout.theme} onChange={handleChange}>
       {mapMenu(sidebar)}
     </Menu>
   );
