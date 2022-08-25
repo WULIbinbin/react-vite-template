@@ -7,11 +7,6 @@ function lessModifyVars(lessPaths: string[]) {
   }, "true;");
 }
 
-console.log(lessModifyVars([
-  "src/styles/var.less",
-  "src/styles/mixins.less",
-]))
-
 export default defineConfig({
   base: "./",
   mode: "development",

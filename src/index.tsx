@@ -1,5 +1,5 @@
 import { createRoot } from "react-dom/client";
-import Routes from "@/router/routes";
+import Routes from "@/router/index";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import 'tdesign-react/dist/reset.css';

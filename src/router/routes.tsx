@@ -1,61 +1,39 @@
-import { Navigate, useRoutes } from "react-router-dom";
-import { lazy, Suspense } from "react";
-import Layout from "@/layout/index";
+const Index = () => import("@/views/index/index");
+const Order = () => import("@/views/order/index");
+const InvoiceQuery = () => import("@/views/invoice/invoice-query/index");
+const InvoiceCheck = () => import("@/views/invoice/invoice-check/index");
 
-const Index = lazy(() => import("@/views/index/index"));
-const Order = lazy(() => import("@/views/order/index"));
-const InvoiceQuery = lazy(() => import("@/views/invoice/invoice-query/index"));
-const InvoiceCheck = lazy(() => import("@/views/invoice/invoice-check/index"));
-
-export default function RouteMain() {
-  const routes = [
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/index",
-          element: (
-            <Suspense>
-              <Index />
-            </Suspense>
-          ),
-        },
-        {
-          path: "/invoice-check",
-          element: (
-            <Suspense>
-              <InvoiceCheck />
-            </Suspense>
-          ),
-        },
-        {
-          path: "/invoice-query",
-          element: (
-            <Suspense>
-              <InvoiceQuery />
-            </Suspense>
-          ),
-        },
-        {
-          path: "/order",
-          element: (
-            <Suspense>
-              <Order />
-            </Suspense>
-          ),
-        },
-      ],
-    },
-    {
-      path: "/",
-      index: true,
-      element: <Navigate to="/index" />,
-    },
-    {
-      path: "*",
-      element: <Navigate to="/index" />,
-    },
-  ];
-  return useRoutes(routes);
-}
+export const routes = [
+  {
+    path: "/",
+    index: true,
+    redirect: "/index",
+  },
+  {
+    path: "/index",
+    meta: { title: "首页", showBreadcrumb: true, layoutStyle: "Sidebar" },
+    component: Index,
+  },
+  {
+    path: "/invoice",
+    redirect: "/invoice-query",
+    meta: { title: "发票管理" },
+    children: [
+      {
+        path: "/invoice-query",
+        meta: { title: "首页", showBreadcrumb: true, layoutStyle: "Sidebar" },
+        component: InvoiceQuery,
+      },
+      {
+        path: "/invoice-check",
+        meta: { title: "首页", showBreadcrumb: true, layoutStyle: "Sidebar" },
+        component: InvoiceCheck,
+      },
+    ],
+  },
+  {
+    path: "/order",
+    meta: { title: "订单管理", showBreadcrumb: true, layoutStyle: "FullPage" },
+    component: Order,
+  },
+];
