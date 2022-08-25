@@ -8,7 +8,7 @@
     "minheap": "node ./src/heap/binaryHeap/minheap.js",
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite build --outDir=docs"
   },
   "author": "WULIbinbin",
   "license": "ISC",
