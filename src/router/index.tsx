@@ -1,61 +1,49 @@
-import { Navigate, useRoutes } from 'react-router-dom';
+import { Navigate, Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import Layout from '@/layout/index';
+import { routes } from './routes';
+import Container from '@/layout/container';
+import { IRouter } from '@/types/router';
 
-const Index = lazy(() => import('@/views/index/index'));
-const Order = lazy(() => import('@/views/order/index'));
-const InvoiceQuery = lazy(() => import('@/views/invoice/invoice-query/index'));
-const InvoiceCheck = lazy(() => import('@/views/invoice/invoice-check/index'));
+type TMapRoutes = (routes: IRouter[], parentPath?: string, breadcrumb?: string[]) => React.ReactNode[];
+
+export const mapRoutes: TMapRoutes = (routes, parentPath = '', breadcrumb = []) =>
+  routes.map((route, idx: number) => {
+    const { component: Component, children, redirect, meta, index } = route;
+    const currentPath = parentPath;
+    let currentBreadcrumb = breadcrumb;
+
+    if (meta?.title) {
+      currentBreadcrumb = currentBreadcrumb.concat([meta?.title]);
+    }
+
+    if (redirect) {
+      // 重定向
+      return <Route key={idx} path={currentPath} element={<Navigate to={redirect} replace />} />;
+    }
+
+    if (Component) {
+      // 有路由菜单
+      return (
+        <Route
+          key={idx}
+          path={currentPath}
+          index={index}
+          element={
+            <Container breadcrumbs={currentBreadcrumb}>
+              <Component />
+            </Container>
+          }
+        />
+      );
+    }
+    // 无路由菜单
+    return children ? mapRoutes(children, currentPath, currentBreadcrumb) : null;
+  });
 
 export default function RouteMain() {
-  const routes = [
-    {
-      path: '/',
-      element: <Layout />,
-      children: [
-        {
-          path: '/index',
-          element: (
-            <Suspense>
-              <Index />
-            </Suspense>
-          ),
-        },
-        {
-          path: '/invoice-check',
-          element: (
-            <Suspense>
-              <InvoiceCheck />
-            </Suspense>
-          ),
-        },
-        {
-          path: '/invoice-query',
-          element: (
-            <Suspense>
-              <InvoiceQuery />
-            </Suspense>
-          ),
-        },
-        {
-          path: '/order',
-          element: (
-            <Suspense>
-              <Order />
-            </Suspense>
-          ),
-        },
-      ],
-    },
-    {
-      path: '/',
-      index: true,
-      element: <Navigate to='/index' />,
-    },
-    {
-      path: '*',
-      element: <Navigate to='/index' />,
-    },
-  ];
-  return useRoutes(routes);
+  return (
+    <Suspense>
+      <Routes>{mapRoutes(routes)}</Routes>
+    </Suspense>
+  );
 }

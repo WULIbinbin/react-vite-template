@@ -1,9 +1,11 @@
+import { IRouter } from '@/types/router';
+
 const Index = () => import('@/views/index/index');
 const Order = () => import('@/views/order/index');
 const InvoiceQuery = () => import('@/views/invoice/invoice-query/index');
 const InvoiceCheck = () => import('@/views/invoice/invoice-check/index');
 
-export const routes = [
+export const routes: IRouter[] = [
   {
     path: '/',
     index: true,
@@ -21,12 +23,12 @@ export const routes = [
     children: [
       {
         path: '/invoice-query',
-        meta: { title: '首页', showBreadcrumb: true, layoutStyle: 'Sidebar' },
+        meta: { title: '发票查询', showBreadcrumb: true, layoutStyle: 'Sidebar' },
         component: InvoiceQuery,
       },
       {
         path: '/invoice-check',
-        meta: { title: '首页', showBreadcrumb: true, layoutStyle: 'Sidebar' },
+        meta: { title: '发票查验', showBreadcrumb: true, layoutStyle: 'Sidebar' },
         component: InvoiceCheck,
       },
     ],
