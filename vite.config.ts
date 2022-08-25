@@ -1,36 +1,31 @@
-import { defineConfig } from "vite";
-import { resolve } from "path";
+import { defineConfig } from 'vite';
+import { resolve } from 'path';
 
 function lessModifyVars(lessPaths: string[]) {
-  return lessPaths.reduce((prev, curv) => {
-    return prev + `@import (reference) "${resolve(curv)}"; `;
-  }, "true;");
+  return lessPaths.reduce((prev, curv) => `${prev}@import (reference) "${resolve(curv)}"; `, 'true;');
 }
 
 export default defineConfig({
-  base: "./",
-  mode: "development",
+  base: './',
+  mode: 'development',
   server: {
     port: 8896,
   },
   esbuild: {
-    jsx: "automatic",
+    jsx: 'automatic',
     jsxInject: `import React from 'react'`,
   },
   resolve: {
     alias: {
-      "@": "/src/",
-      pages: resolve(__dirname, "/src/pages"),
+      '@': '/src/',
+      pages: resolve(__dirname, '/src/pages'),
     },
   },
   css: {
     preprocessorOptions: {
       less: {
         modifyVars: {
-          hack: lessModifyVars([
-            "src/styles/var.less",
-            "src/styles/mixins.less",
-          ]),
+          hack: lessModifyVars(['src/styles/var.less', 'src/styles/mixins.less']),
         },
         javascriptEnabled: true,
       },

@@ -1,22 +1,20 @@
-import { Navigate, useRoutes } from "react-router-dom";
-import { lazy, Suspense } from "react";
-import Layout from "@/layout/index";
+import { Navigate, useRoutes } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
+import Layout from '@/layout/index';
 
-
-
-const Index = lazy(() => import("@/views/index/index"));
-const Order = lazy(() => import("@/views/order/index"));
-const InvoiceQuery = lazy(() => import("@/views/invoice/invoice-query/index"));
-const InvoiceCheck = lazy(() => import("@/views/invoice/invoice-check/index"));
+const Index = lazy(() => import('@/views/index/index'));
+const Order = lazy(() => import('@/views/order/index'));
+const InvoiceQuery = lazy(() => import('@/views/invoice/invoice-query/index'));
+const InvoiceCheck = lazy(() => import('@/views/invoice/invoice-check/index'));
 
 export default function RouteMain() {
   const routes = [
     {
-      path: "/",
+      path: '/',
       element: <Layout />,
       children: [
         {
-          path: "/index",
+          path: '/index',
           element: (
             <Suspense>
               <Index />
@@ -24,7 +22,7 @@ export default function RouteMain() {
           ),
         },
         {
-          path: "/invoice-check",
+          path: '/invoice-check',
           element: (
             <Suspense>
               <InvoiceCheck />
@@ -32,7 +30,7 @@ export default function RouteMain() {
           ),
         },
         {
-          path: "/invoice-query",
+          path: '/invoice-query',
           element: (
             <Suspense>
               <InvoiceQuery />
@@ -40,7 +38,7 @@ export default function RouteMain() {
           ),
         },
         {
-          path: "/order",
+          path: '/order',
           element: (
             <Suspense>
               <Order />
@@ -50,13 +48,13 @@ export default function RouteMain() {
       ],
     },
     {
-      path: "/",
+      path: '/',
       index: true,
-      element: <Navigate to="/index" />,
+      element: <Navigate to='/index' />,
     },
     {
-      path: "*",
-      element: <Navigate to="/index" />,
+      path: '*',
+      element: <Navigate to='/index' />,
     },
   ];
   return useRoutes(routes);

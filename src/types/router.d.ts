@@ -12,7 +12,6 @@ export interface IRouter {
   meta?: {
     title?: string;
     showBreadcrumb?: boolean;
-    
   };
   children?: IRouter[];
 }

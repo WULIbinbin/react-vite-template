@@ -1,10 +1,10 @@
-import { createRoot } from "react-dom/client";
-import Routes from "@/router/index";
-import { BrowserRouter as Router } from "react-router-dom";
+import { createRoot } from 'react-dom/client';
+import Routes from '@/router/index';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import 'tdesign-react/dist/reset.css';
 import 'tdesign-react/es/style/index.css';
-import "@/styles/index.less";
+import '@/styles/index.less';
 
 function App() {
   return (
@@ -14,5 +14,5 @@ function App() {
   );
 }
 
-const container = createRoot(document.getElementById("container"));
+const container = createRoot(document.getElementById('container'));
 container.render(<App />);

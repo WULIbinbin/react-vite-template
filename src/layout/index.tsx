@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
-import { Outlet } from "react-router-dom";
-import { Layout, Row, Col } from "tdesign-react";
-import Sidebar from "./sidebar/index";
-import Topbar from "./topbar/index";
-import { LayoutContext, Theme } from "./context";
+import { useContext, useState } from 'react';
+import { Outlet } from 'react-router-dom';
+import { Layout, Row, Col } from 'tdesign-react';
+import Sidebar from './sidebar/index';
+import Topbar from './topbar/index';
+import { LayoutContext, Theme } from './context';
+
 const { Header, Content, Footer, Aside } = Layout;
 
 export default function Index() {
@@ -12,12 +13,12 @@ export default function Index() {
   function setDarkTheme(value: boolean) {
     setTheme(value ? Theme.dark : Theme.light);
     if (value) {
-      document.documentElement.setAttribute("theme-mode", "dark");
+      document.documentElement.setAttribute('theme-mode', 'dark');
     } else {
-      document.documentElement.removeAttribute("theme-mode");
+      document.documentElement.removeAttribute('theme-mode');
     }
   }
-  
+
   return (
     <LayoutContext.Provider
       value={{
@@ -25,13 +26,13 @@ export default function Index() {
         setDarkTheme,
       }}
     >
-      <Layout className="g-layout">
+      <Layout className='g-layout'>
         <Header>
-          <Row className="g-header">
-            <Col className="g-header-left">
+          <Row className='g-header'>
+            <Col className='g-header-left'>
               <h3>WEB</h3>
             </Col>
-            <Col className="g-header-right">
+            <Col className='g-header-right'>
               <Topbar />
             </Col>
           </Row>
@@ -41,10 +42,10 @@ export default function Index() {
             <Sidebar />
           </Aside>
           <Layout>
-            <Content className="g-content">
+            <Content className='g-content'>
               <Outlet></Outlet>
             </Content>
-            <Footer className="g-footer">我是底部</Footer>
+            <Footer className='g-footer'>我是底部</Footer>
           </Layout>
         </Layout>
       </Layout>

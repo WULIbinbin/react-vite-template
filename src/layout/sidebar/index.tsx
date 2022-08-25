@@ -1,8 +1,8 @@
-import { useEffect, useState,useContext } from "react";
-import sidebar from "@/config/sidebar";
-import { Menu } from "tdesign-react";
-import { useNavigate, useLocation } from "react-router-dom";
-import {LayoutContext} from '../context'
+import { useEffect, useState, useContext } from 'react';
+import sidebar from '@/config/sidebar';
+import { Menu } from 'tdesign-react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { LayoutContext } from '../context';
 
 const { MenuItem, SubMenu } = Menu;
 
@@ -14,34 +14,27 @@ function mapMenu(child: any[]) {
           <span>{item.name}</span>
         </MenuItem>
       );
-    } else {
-      return (
-        <SubMenu value={item.to} key={item.to} title={item.name}>
-          {mapMenu(item.children)}
-        </SubMenu>
-      );
     }
+    return (
+      <SubMenu value={item.to} key={item.to} title={item.name}>
+        {mapMenu(item.children)}
+      </SubMenu>
+    );
   });
 }
 
-
 export default function Index() {
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState('');
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const layout = useContext(LayoutContext)
-
+  const layout = useContext(LayoutContext);
 
   useEffect(() => {
-    console.log(layout)
-    if (
-      sidebar.findIndex(({ to }) => {
-        return to.includes(pathname);
-      }) > -1
-    ) {
+    console.log(layout);
+    if (sidebar.findIndex(({ to }) => to.includes(pathname)) > -1) {
       setActive(pathname);
     }
-  }, [location.pathname]);
+  }, [pathname]);
 
   function handleChange(value) {
     navigate(value);

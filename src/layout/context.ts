@@ -1,13 +1,12 @@
-import React from "react";
+import React from 'react';
 
+export enum Theme {
+  light = 'light',
+  dark = 'dark',
+}
 export interface IContext {
   theme?: Theme;
   setDarkTheme?: (value: boolean) => void;
-}
-
-export enum Theme {
-  light = "light",
-  dark = "dark",
 }
 
 export const LayoutContext = React.createContext<IContext>({});

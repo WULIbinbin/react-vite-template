@@ -1,4 +1,4 @@
-import Container from "@/layout/container";
+import Container from '@/layout/container';
 
 export default function Index() {
   return (

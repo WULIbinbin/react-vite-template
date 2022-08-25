@@ -1,5 +1,3 @@
-export default function Index(){
-  return (
-    <div>Order</div>
-  )
+export default function Index() {
+  return <div>Order</div>;
 }
