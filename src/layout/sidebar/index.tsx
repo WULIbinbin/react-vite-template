@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import sidebar from '@/config/sidebar';
 import { Menu } from 'tdesign-react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { LayoutContext } from '../context';
 
 const { MenuItem, SubMenu } = Menu;
 
-function mapMenu(child: any[]) {
+function mapMenu(child: any[]): React.ReactNode[] {
   return child.map((item) => {
     if (!item.children) {
       return (
@@ -16,30 +16,30 @@ function mapMenu(child: any[]) {
       );
     }
     return (
-      <SubMenu value={item.to} key={item.to} title={item.name}>
+      <SubMenu key={item.to} title={item.name}>
         {mapMenu(item.children)}
       </SubMenu>
     );
   });
 }
 
-export default function Index() {
+function Index() {
   const [active, setActive] = useState('');
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const layout = useContext(LayoutContext);
 
   useEffect(() => {
-    console.log(layout);
-    if (sidebar.findIndex(({ to }) => to.includes(pathname)) > -1) {
-      setActive(pathname);
-    }
+    setActive(pathname);
   }, [pathname]);
 
-  function handleChange(value) {
-    navigate(value);
-    setActive(value);
-  }
+  const handleChange = useCallback(
+    (value) => {
+      setActive(value);
+      navigate(value);
+    },
+    [active],
+  );
 
   return (
     <Menu value={active} theme={layout.theme} onChange={handleChange}>
@@ -47,3 +47,5 @@ export default function Index() {
     </Menu>
   );
 }
+
+export default Index;

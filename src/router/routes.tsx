@@ -21,6 +21,7 @@ export const routes: IRouter[] = [
   {
     path: '/',
     index: true,
+    // 默认重定向到首页
     redirect: '/index',
   },
   {
@@ -30,7 +31,6 @@ export const routes: IRouter[] = [
   },
   {
     path: '/invoice',
-    redirect: '/invoice-query',
     meta: { title: '发票管理' },
     children: [
       {
@@ -44,6 +44,10 @@ export const routes: IRouter[] = [
         component: InvoiceCheck,
       },
     ],
+  },
+  {
+    path: '/invoice',
+    redirect: '/invoice/invoice-query',
   },
   {
     path: '/order',

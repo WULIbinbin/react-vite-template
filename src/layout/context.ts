@@ -1,11 +1,8 @@
+import { ETheme } from '@/types/layout.d';
 import React from 'react';
 
-export enum Theme {
-  light = 'light',
-  dark = 'dark',
-}
 export interface IContext {
-  theme?: Theme;
+  theme?: ETheme;
   setDarkTheme?: (value: boolean) => void;
 }
 

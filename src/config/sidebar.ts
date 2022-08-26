@@ -5,7 +5,7 @@ export default [
   },
   {
     name: "发票管理",
-    to: "/invoice/invoice-query",
+    to: "/invoice",
     children: [
       {
         name: "发票查询",

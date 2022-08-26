@@ -5,7 +5,7 @@ import { LayoutContext } from '../context';
 
 const { HeadMenu, SubMenu, MenuItem } = Menu;
 
-export default function Index() {
+function Index() {
   const layout = useContext(LayoutContext);
 
   function handleMenu() {}
@@ -35,3 +35,5 @@ export default function Index() {
     </HeadMenu>
   );
 }
+
+export default React.memo(Index);

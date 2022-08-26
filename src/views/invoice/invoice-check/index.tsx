@@ -1,9 +1,8 @@
 import { Space, Form, Input } from 'tdesign-react';
-import Container from '@/layout/container';
 
 export default function Index() {
   return (
-    <Container>
+    <div>
       <Space direction='horizontal'>
         <Form layout='inline' labelWidth={60}>
           <Form.FormItem label='发票号码' name='number'>
@@ -14,6 +13,6 @@ export default function Index() {
           </Form.FormItem>
         </Form>
       </Space>
-    </Container>
+    </div>
   );
 }

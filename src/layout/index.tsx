@@ -2,16 +2,17 @@ import { useContext, useState } from 'react';
 import { Layout, Row, Col } from 'tdesign-react';
 import Sidebar from './sidebar/index';
 import Topbar from './topbar/index';
-import { LayoutContext, Theme } from './context';
+import { LayoutContext } from './context';
+import { ETheme } from '@/types/layout.d';
 import RouteMain from '@/router';
 
 const { Header, Content, Footer, Aside } = Layout;
 
 export default function Index() {
-  const [theme, setTheme] = useState(Theme.light);
+  const [theme, setTheme] = useState(ETheme.light);
 
   function setDarkTheme(value: boolean) {
-    setTheme(value ? Theme.dark : Theme.light);
+    setTheme(value ? ETheme.dark : ETheme.light);
     if (value) {
       document.documentElement.setAttribute('theme-mode', 'dark');
     } else {
