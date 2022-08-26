@@ -16,9 +16,7 @@ const layoutSlice = createSlice({
   name: 'layout',
   initialState,
   reducers: {
-    switchTheme(state) {
-      
-    },
+    switchTheme(state) {},
   },
 });
 
