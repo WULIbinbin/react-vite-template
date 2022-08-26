@@ -11,18 +11,22 @@ export const mapRoutes: TMapRoutes = (routes, parentPath = '', breadcrumb = []) 
   routes.map((route, idx: number) => {
     const { component: Component, children, redirect, meta, index = false } = route;
     const currentPath = resolve(parentPath, route.path);
+    let renderChildRoute = null;
     let currentBreadcrumb = breadcrumb;
+
     if (meta?.title) {
       currentBreadcrumb = currentBreadcrumb.concat([meta?.title]);
     }
 
-    const renderChild = children ? mapRoutes(children, currentPath, currentBreadcrumb) : null;
+    if (children) {
+      renderChildRoute = mapRoutes(children, currentPath, currentBreadcrumb);
+    }
 
     if (redirect) {
       // 重定向
       return (
         <Route key={idx} path={currentPath} element={<Navigate to={redirect} replace />}>
-          {renderChild}
+          {renderChildRoute}
         </Route>
       );
     }
@@ -43,13 +47,13 @@ export const mapRoutes: TMapRoutes = (routes, parentPath = '', breadcrumb = []) 
       );
     }
     // 无路由菜单
-    return renderChild;
+    return renderChildRoute;
   });
 
 export default function RouteMain() {
   return (
-      <Suspense>
-        <Routes>{mapRoutes(routes)}</Routes>
-      </Suspense>
+    <Suspense>
+      <Routes>{mapRoutes(routes)}</Routes>
+    </Suspense>
   );
 }

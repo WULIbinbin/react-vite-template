@@ -6,8 +6,18 @@ const Index = lazy(() => import('@/views/index/index'));
 const Order = lazy(() => import('@/views/order/index'));
 const InvoiceQuery = lazy(() => import('@/views/invoice/invoice-query/index'));
 const InvoiceCheck = lazy(() => import('@/views/invoice/invoice-check/index'));
+const Error = lazy(() => import('@/views/error/index'));
 
 export const routes: IRouter[] = [
+  {
+    path: '*',
+    redirect: '/error/404',
+  },
+  {
+    path: '/error/:type',
+    meta: { title: '跳转错误', layoutStyle: ELayoutStyle.FullPage },
+    component: Error,
+  },
   {
     path: '/',
     index: true,

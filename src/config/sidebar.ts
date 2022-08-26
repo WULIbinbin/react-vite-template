@@ -5,15 +5,15 @@ export default [
   },
   {
     name: "发票管理",
-    to:'/invoice-query',
+    to: "/invoice/invoice-query",
     children: [
       {
         name: "发票查询",
-        to: "/invoice-query",
+        to: "/invoice/invoice-query",
       },
       {
         name: "发票查验",
-        to: "/invoice-check",
+        to: "/invoice/invoice-check",
       },
     ],
   },
