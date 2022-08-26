@@ -1,3 +1,5 @@
+import { ELayoutStyle } from './layout';
+
 export interface IRouter {
   path: string;
   index?: boolean;
@@ -6,7 +8,7 @@ export interface IRouter {
   meta?: {
     title?: string;
     showBreadcrumb?: boolean;
-    layoutStyle?: 'Sidebar' | 'FullPage';
+    layoutStyle?: ELayoutStyle;
   };
   children?: IRouter[];
 }

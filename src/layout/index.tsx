@@ -1,9 +1,9 @@
 import { useContext, useState } from 'react';
-import { Outlet } from 'react-router-dom';
 import { Layout, Row, Col } from 'tdesign-react';
 import Sidebar from './sidebar/index';
 import Topbar from './topbar/index';
 import { LayoutContext, Theme } from './context';
+import RouteMain from '@/router';
 
 const { Header, Content, Footer, Aside } = Layout;
 
@@ -43,7 +43,7 @@ export default function Index() {
           </Aside>
           <Layout>
             <Content className='g-content'>
-              <Outlet></Outlet>
+              <RouteMain></RouteMain>
             </Content>
             <Footer className='g-footer'>我是底部</Footer>
           </Layout>

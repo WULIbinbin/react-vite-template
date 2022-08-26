@@ -1,6 +1,6 @@
 import { createRoot } from 'react-dom/client';
-import Routes from '@/router/index';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
+import AppLayout from '@/layout/index';
 
 import 'tdesign-react/dist/reset.css';
 import 'tdesign-react/es/style/index.css';
@@ -8,9 +8,9 @@ import '@/styles/index.less';
 
 function App() {
   return (
-    <Router>
-      <Routes></Routes>
-    </Router>
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
   );
 }
 
