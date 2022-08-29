@@ -12,4 +12,5 @@ export enum ETheme {
 export interface IContainer {
   breadcrumbs?: string[];
   children?: JSX.Element;
+  layoutStyle?: ELayoutStyle;
 }

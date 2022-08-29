@@ -29,6 +29,9 @@ const layoutSlice = createSlice({
     toggleSidebar(state, action) {
       state.showSidebar = action.payload;
     },
+    setLayoutStyle(state, action) {
+      state.layoutStyle = action.payload;
+    },
   },
 });
 

@@ -1,10 +1,10 @@
-import { useContext, useState } from 'react';
 import { Layout, Row, Col } from 'tdesign-react';
+import { Link } from 'react-router-dom';
 import Sidebar from './sidebar/index';
 import Topbar from './topbar/index';
 import RouteMain from '@/router';
 import { ELayoutStyle } from '@/types/layout.d';
-import { useLocation } from 'react-router-dom';
+import { useAppSelector } from '@/store';
 
 const { Header, Content, Footer, Aside } = Layout;
 
@@ -13,7 +13,9 @@ const MixLayout = () => (
     <Header>
       <Row className='g-header'>
         <Col className='g-header-left'>
-          <h3>WEB</h3>
+          <Link to='/index'>
+            <h3>WEB</h3>
+          </Link>
         </Col>
         <Col className='g-header-right'>
           <Topbar />
@@ -34,13 +36,37 @@ const MixLayout = () => (
   </Layout>
 );
 
+const TopbarLayout = () => (
+  <Layout className='g-layout'>
+    <Header>
+      <Row className='g-header'>
+        <Col className='g-header-left'>
+          <Link to='/index'>
+            <h3>WEB</h3>
+          </Link>
+        </Col>
+        <Col className='g-header-right'>
+          <Topbar />
+        </Col>
+      </Row>
+    </Header>
+    <Layout>
+      <Content className='g-content'>
+        <RouteMain></RouteMain>
+      </Content>
+      <Footer className='g-footer'>我是底部</Footer>
+    </Layout>
+  </Layout>
+);
+
 const LayoutClump = {
   [ELayoutStyle.Mix]: MixLayout,
   [ELayoutStyle.FullPage]: MixLayout,
-  [ELayoutStyle.Topbar]: MixLayout,
+  [ELayoutStyle.Topbar]: TopbarLayout,
 };
 
 export default function Index() {
-  const Component = LayoutClump[ELayoutStyle.Mix];
-  return <Component />;
+  const layout = useAppSelector((state) => state.layout);
+  const AppLayout = LayoutClump[layout.layoutStyle];
+  return <AppLayout />;
 }
