@@ -1,15 +1,16 @@
 import { ELayoutStyle, ETheme } from '@/types/layout.d';
 import { createSlice } from '@reduxjs/toolkit';
-import { RootState } from '../index';
 
 interface IState {
   layoutStyle: ELayoutStyle;
   theme: ETheme;
+  showSidebar: boolean;
 }
 
 const initialState: IState = {
   layoutStyle: ELayoutStyle.Mix,
   theme: ETheme.light,
+  showSidebar: true,
 };
 
 const layoutSlice = createSlice({
@@ -24,6 +25,9 @@ const layoutSlice = createSlice({
         state.theme = ETheme.light;
         document.documentElement.removeAttribute('theme-mode');
       }
+    },
+    toggleSidebar(state, action) {
+      state.showSidebar = action.payload;
     },
   },
 });

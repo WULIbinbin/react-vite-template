@@ -4,7 +4,7 @@ export default function Index() {
   return (
     <div>
       <Space direction='horizontal'>
-        <Form layout='inline' labelWidth={60}>
+        <Form layout='inline' labelWidth={80}>
           <Form.FormItem label='发票号码' name='number'>
             <Input />
           </Form.FormItem>

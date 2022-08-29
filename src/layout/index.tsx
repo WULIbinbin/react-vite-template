@@ -4,6 +4,7 @@ import Sidebar from './sidebar/index';
 import Topbar from './topbar/index';
 import RouteMain from '@/router';
 import { ELayoutStyle } from '@/types/layout.d';
+import { useLocation } from 'react-router-dom';
 
 const { Header, Content, Footer, Aside } = Layout;
 
