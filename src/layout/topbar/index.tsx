@@ -1,17 +1,17 @@
-import { useContext } from 'react';
 import { Menu, Avatar, Switch, Space } from 'tdesign-react';
 import { CheckCircleFilledIcon, CheckCircleIcon } from 'tdesign-icons-react';
-import { LayoutContext } from '../context';
+import { useAppDispatch, useAppSelector, layoutActions } from '@/store';
 
 const { HeadMenu, SubMenu, MenuItem } = Menu;
 
 function Index() {
-  const layout = useContext(LayoutContext);
+  const layout = useAppSelector((state) => state.layout);
+  const dispatch = useAppDispatch();
 
   function handleMenu() {}
 
   function handleSwitch(value) {
-    layout.setDarkTheme(!!value);
+    dispatch(layoutActions.switchTheme(!!value));
   }
 
   return (

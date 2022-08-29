@@ -1,5 +1,4 @@
 export enum ELayoutStyle {
-  Sidebar = 'Sidebar',
   Topbar = 'Topbar',
   Mix = 'Mix',
   FullPage = 'FullPage',

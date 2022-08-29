@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext, useCallback } from 'react';
 import sidebar from '@/config/sidebar';
 import { Menu } from 'tdesign-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LayoutContext } from '../context';
+import { useAppSelector } from '@/store';
 
 const { MenuItem, SubMenu } = Menu;
 
@@ -27,7 +27,7 @@ function Index() {
   const [active, setActive] = useState('');
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const layout = useContext(LayoutContext);
+  const layout = useAppSelector((state) => state.layout);
 
   useEffect(() => {
     setActive(pathname);

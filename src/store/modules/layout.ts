@@ -16,8 +16,16 @@ const layoutSlice = createSlice({
   name: 'layout',
   initialState,
   reducers: {
-    switchTheme(state) {},
+    switchTheme(state, action) {
+      if (action?.payload) {
+        state.theme = ETheme.dark;
+        document.documentElement.setAttribute('theme-mode', 'dark');
+      } else {
+        state.theme = ETheme.light;
+        document.documentElement.removeAttribute('theme-mode');
+      }
+    },
   },
 });
 
-export default layoutSlice.reducer;
+export default layoutSlice;
