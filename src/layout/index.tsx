@@ -59,9 +59,17 @@ const TopbarLayout = () => (
   </Layout>
 );
 
+const FullPageLayout = () => (
+  <Layout className='g-layout'>
+    <Content className='g-content'>
+      <RouteMain></RouteMain>
+    </Content>
+  </Layout>
+);
+
 const LayoutClump = {
   [ELayoutStyle.Mix]: MixLayout,
-  [ELayoutStyle.FullPage]: MixLayout,
+  [ELayoutStyle.FullPage]: FullPageLayout,
   [ELayoutStyle.Topbar]: TopbarLayout,
 };
 

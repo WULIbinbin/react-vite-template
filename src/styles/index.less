@@ -1,5 +1,5 @@
-@import "./var.less";
-@import "./reset.less";
+@import './var.less';
+@import './reset.less';
 
 html,
 body,
@@ -44,9 +44,20 @@ body,
   }
   &-container {
     background-color: var(--g-container-bg);
-    padding:16px;
-    &-body{
+    padding: 16px;
+    height: 100%;
+    .t-breadcrumb{
+      margin:0 0 16px 0;
+    }
+    &-body {
       padding-top: 16px;
+      width: 100%;
+    }
+  }
+  &-error {
+    &-page {
+      .flex-centered();
+      margin:120px 0 60px;
     }
   }
 }

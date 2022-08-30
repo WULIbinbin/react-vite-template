@@ -6,6 +6,7 @@ const Index = lazy(() => import('@/views/index/index'));
 const Order = lazy(() => import('@/views/order/index'));
 const InvoiceQuery = lazy(() => import('@/views/invoice/invoice-query/index'));
 const InvoiceCheck = lazy(() => import('@/views/invoice/invoice-check/index'));
+const InvoiceDetail = lazy(() => import('@/views/invoice/invoice-detail/index'));
 const Error = lazy(() => import('@/views/error/index'));
 
 export const routes: IRouter[] = [
@@ -37,6 +38,11 @@ export const routes: IRouter[] = [
         path: '/invoice-query',
         meta: { title: '发票查询', showBreadcrumb: true, layoutStyle: ELayoutStyle.Mix },
         component: InvoiceQuery,
+      },
+      {
+        path: '/invoice-detail',
+        meta: { title: '发票详情', showBreadcrumb: true, layoutStyle: ELayoutStyle.FullPage },
+        component: InvoiceDetail,
       },
       {
         path: '/invoice-check',

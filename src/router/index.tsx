@@ -16,7 +16,7 @@ export const mapRoutes: TMapRoutes = (routes, parentPath = '', breadcrumb = []) 
     let currentBreadcrumb = breadcrumb;
     const layoutStyle = meta?.layoutStyle || ELayoutStyle.Mix;
 
-    if (meta?.title) {
+    if (meta?.showBreadcrumb && meta?.title) {
       currentBreadcrumb = currentBreadcrumb.concat([meta?.title]);
     }
 

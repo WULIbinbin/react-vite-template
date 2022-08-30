@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Space, Form, Input, Table } from 'tdesign-react';
+import { useNavigate } from 'react-router-dom';
+import { Space, Form, Input, Table, Button } from 'tdesign-react';
 
 const data = [];
 const total = 128;
-const columns = [
+const columns = (navigate) => [
   {
     colKey: 'row-select',
     type: 'multiple',
@@ -44,6 +45,11 @@ const columns = [
     colKey: 'operation',
     title: '操作',
     align: 'center',
+    cell: () => (
+      <Space>
+        <Button onClick={() => navigate('/invoice/invoice-detail')}>查看详情</Button>
+      </Space>
+    ),
   },
 ];
 
@@ -62,6 +68,7 @@ export default function Index() {
   const [current, setCurrent] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const navigate = useNavigate();
 
   // 分页数据变化
   async function rehandleChange(pageInfo) {
@@ -87,7 +94,7 @@ export default function Index() {
         </Form>
       </Space>
       <Table
-        columns={columns}
+        columns={columns(navigate)}
         data={data}
         rowKey='index'
         pagination={{
