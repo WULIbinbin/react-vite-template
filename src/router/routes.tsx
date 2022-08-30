@@ -32,7 +32,7 @@ export const routes: IRouter[] = [
   },
   {
     path: '/invoice',
-    meta: { title: '发票管理' },
+    meta: { title: '发票管理', showBreadcrumb: true },
     children: [
       {
         path: '/invoice-query',
