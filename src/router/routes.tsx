@@ -3,6 +3,7 @@ import { IRouter } from '@/types/router.d';
 import { lazy } from 'react';
 
 const Index = lazy(() => import('@/views/index/index'));
+const Login = lazy(() => import('@/views/account/login/index'));
 const Order = lazy(() => import('@/views/order/index'));
 const InvoiceQuery = lazy(() => import('@/views/invoice/invoice-query/index'));
 const InvoiceCheck = lazy(() => import('@/views/invoice/invoice-check/index'));
@@ -29,6 +30,16 @@ export const routes: IRouter[] = [
     path: '/index',
     meta: { title: '首页', showBreadcrumb: true, layoutStyle: ELayoutStyle.Mix },
     component: Index,
+  },
+  {
+    path: '/account',
+    children: [
+      {
+        path: '/login',
+        meta: { title: '用户登录', layoutStyle: ELayoutStyle.FullPage },
+        component: Login,
+      },
+    ],
   },
   {
     path: '/invoice',

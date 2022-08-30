@@ -53,9 +53,6 @@ const columns = (navigate) => [
   },
 ];
 
-
-
-
 for (let i = 0; i < total; i++) {
   data.push({
     index: i + 1,

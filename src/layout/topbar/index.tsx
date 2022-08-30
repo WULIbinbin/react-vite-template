@@ -1,6 +1,6 @@
 import { Menu, Avatar, Switch, Space } from 'tdesign-react';
 import { CheckCircleFilledIcon, CheckCircleIcon } from 'tdesign-icons-react';
-import { useAppDispatch, useAppSelector, layoutActions } from '@/store';
+import store, { useAppDispatch, useAppSelector, layoutActions } from '@/store';
 
 const { HeadMenu, SubMenu, MenuItem } = Menu;
 
@@ -8,7 +8,15 @@ function Index() {
   const layout = useAppSelector((state) => state.layout);
   const dispatch = useAppDispatch();
 
-  function handleMenu() {}
+  function handleMenu(value) {
+    console.log(value);
+    switch (value) {
+      case 'mine':
+        break;
+      default:
+        console.log(store)
+    }
+  }
 
   function handleSwitch(value) {
     dispatch(layoutActions.switchTheme(!!value));
