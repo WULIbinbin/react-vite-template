@@ -15,9 +15,7 @@ const initialState: IAccount = {
 const accountSlice = createSlice({
   name: 'account',
   initialState,
-  reducers: {
-    
-  },
+  reducers: {},
 });
 
 export default accountSlice;

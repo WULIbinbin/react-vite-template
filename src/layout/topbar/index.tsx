@@ -14,7 +14,8 @@ function Index() {
       case 'mine':
         break;
       default:
-        console.log(store)
+        console.log(store);
+        store.dispatch(layoutActions.switchTheme(!!value));
     }
   }
 
