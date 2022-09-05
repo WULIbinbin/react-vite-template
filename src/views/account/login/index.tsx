@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
-import { useAppDispatch, accountActions } from '@/store/index';
+import { useAppDispatch } from '@/store';
+import { checkSession } from '@/store/modules/account';
 
 export default function Index() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     try {
-      const res = dispatch(accountActions.checkSession());
+      const res = dispatch(checkSession());
       console.log(res);
     } catch (error) {
       console.log(error);

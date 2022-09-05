@@ -2,7 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useSelector, useDispatch } from 'react-redux';
 
 import layout from './modules/layout';
-import account, { checkSession } from './modules/account';
+import account from './modules/account';
 
 const reducer = combineReducers({
   layout: layout.reducer,
@@ -20,9 +20,6 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const layoutActions = layout.actions;
-export const accountActions = {
-  ...account.actions,
-  checkSession,
-};
+export const accountActions = account.actions;
 
 export default store;
