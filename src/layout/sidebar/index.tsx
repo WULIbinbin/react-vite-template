@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext, useCallback } from 'react';
-import sidebar from '@/config/sidebar';
+import sidebar from '@/configs/sidebar';
 import { Menu } from 'tdesign-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '@/store';
+import { ISidebar } from '@/types/router.d';
 
 const { MenuItem, SubMenu } = Menu;
 
-function mapMenu(child: any[]): React.ReactNode[] {
+function mapMenu(child: ISidebar[]): React.ReactNode[] {
   return child.map((item) => {
     if (!item.children) {
       return (

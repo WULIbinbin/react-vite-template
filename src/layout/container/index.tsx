@@ -11,17 +11,18 @@ export default function Index(props: IContainer) {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    console.log(layoutStyle);
     dispatch(layoutActions.setLayoutStyle(layoutStyle));
   }, [layoutStyle]);
 
   return (
     <div className='g-container'>
-      <Breadcrumb maxItemWidth='200px' theme={layout.theme}>
-        {breadcrumbs.map((item, idx) => (
-          <BreadcrumbItem key={idx}>{item}</BreadcrumbItem>
-        ))}
-      </Breadcrumb>
+      {breadcrumbs.length > 0 && (
+        <Breadcrumb maxItemWidth='200px' theme={layout.theme}>
+          {breadcrumbs.map((item, idx) => (
+            <BreadcrumbItem key={idx}>{item}</BreadcrumbItem>
+          ))}
+        </Breadcrumb>
+      )}
       <div className='g-container-body'>{children}</div>
     </div>
   );

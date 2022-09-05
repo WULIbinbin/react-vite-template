@@ -1,10 +1,10 @@
 export default [
   {
-    name: "Index",
-    to: "/index",
+    name: 'Index',
+    to: '/index',
   },
   {
-    name: "Order",
-    to: "/order",
+    name: 'Order',
+    to: '/order',
   },
 ];

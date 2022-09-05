@@ -1,3 +1,3 @@
-import { login } from './api/account';
+import account from './api/account';
 
-export default [login()];
+export default [...account];

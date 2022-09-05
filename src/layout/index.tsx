@@ -61,9 +61,7 @@ const TopbarLayout = () => (
 
 const FullPageLayout = () => (
   <Layout className='g-layout'>
-    <Content className='g-content'>
-      <RouteMain></RouteMain>
-    </Content>
+    <RouteMain></RouteMain>
   </Layout>
 );
 

@@ -12,3 +12,9 @@ export interface IRouter {
   };
   children?: IRouter[];
 }
+
+export interface ISidebar {
+  name: string;
+  to: string;
+  children?: ISidebar[];
+}

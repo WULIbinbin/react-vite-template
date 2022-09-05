@@ -1,4 +1,6 @@
-export default [
+import { ISidebar } from '@/types/router.d';
+
+const sidebar: ISidebar[] = [
   {
     name: '仪表盘',
     to: '/index',
@@ -22,3 +24,5 @@ export default [
     to: '/order',
   },
 ];
+
+export default sidebar;
