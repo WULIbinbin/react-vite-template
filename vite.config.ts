@@ -1,16 +1,23 @@
-import { defineConfig } from 'vite';
+import { ConfigEnv, UserConfigExport } from 'vite';
 import { resolve } from 'path';
+import { viteMockServe } from 'vite-plugin-mock';
 
 function lessModifyVars(lessPaths: string[]) {
   return lessPaths.reduce((prev, curv) => `${prev}@import (reference) "${resolve(curv)}"; `, 'true;');
 }
 
-export default defineConfig({
+export default ({ command }: ConfigEnv): UserConfigExport => ({
   base: './',
   mode: 'development',
   server: {
     port: 8896,
   },
+  plugins: [
+    viteMockServe({
+      mockPath: 'mock',
+      localEnabled: command === 'serve',
+    }),
+  ],
   esbuild: {
     jsx: 'automatic',
     jsxInject: `import React from 'react'`,
