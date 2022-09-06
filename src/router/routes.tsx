@@ -24,12 +24,16 @@ export const routes: IRouter[] = [
     path: '/',
     index: true,
     // 默认重定向到首页
-    redirect: '/index',
+    redirect: '/account/login',
   },
   {
     path: '/index',
     meta: { title: '首页', showBreadcrumb: true, layoutStyle: ELayoutStyle.Mix },
     component: Index,
+  },
+  {
+    path: '/account',
+    redirect: '/account/login',
   },
   {
     path: '/account',

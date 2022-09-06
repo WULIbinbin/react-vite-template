@@ -33,13 +33,29 @@ export default memo(() => {
     });
   }
 
+  function handleKeyDown(val, event) {
+    const formRef = form.current;
+    if (!val) return;
+    if (event.e.keyCode === 13) {
+      formRef.submit();
+    }
+  }
+
   function handleSubmit({ validateResult }) {
     console.log(form.current);
     const formRef = form.current;
     if (validateResult === true) {
       // 模拟表单项单独校验
-      // formRef.validate(formData).then(res=>{})
+      // formRef
+      //   .validate({
+      //     fields: ['account'],
+      //     showErrorMessage: false,
+      //   })
+      //   .then((res) => {
+      //     console.log(res);
+      //   });
       if (formData.account !== initData.account) {
+        // 设置错误信息
         formRef.setValidateMessage({
           account: [{ type: 'error', message: '账号不存在' }],
         });
@@ -75,6 +91,7 @@ export default memo(() => {
               clearable={true}
               placeholder={`密码：${initData.password}`}
               onChange={(e) => handleInput('password', e)}
+              onKeydown={handleKeyDown}
             ></Input>
           </FormItem>
           <FormItem>

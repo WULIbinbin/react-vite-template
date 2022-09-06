@@ -5,6 +5,7 @@ import Container from '@/layout/container';
 import { IRouter } from '@/types/router';
 import { resolve } from '@/utils/path';
 import { ELayoutStyle } from '@/types/layout.d';
+import { Loading } from 'tdesign-react';
 
 type TMapRoutes = (routes: IRouter[], parentPath?: string, breadcrumb?: string[]) => React.ReactNode[];
 
@@ -42,7 +43,22 @@ export const mapRoutes: TMapRoutes = (routes, parentPath = '', breadcrumb = []) 
           index={index}
           element={
             <Container breadcrumbs={currentBreadcrumb} layoutStyle={layoutStyle}>
-              <Component />
+              <Suspense
+                fallback={
+                  <Loading
+                    delay={200}
+                    fullscreen={true}
+                    indicator
+                    inheritColor={false}
+                    loading
+                    preventScrollThrough
+                    showOverlay
+                    size='medium'
+                  />
+                }
+              >
+                <Component />
+              </Suspense>
             </Container>
           }
         />

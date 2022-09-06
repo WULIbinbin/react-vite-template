@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { CheckSession,Login } from '@/api/account';
+import { CheckSession, Login } from '@/api/account';
 
 enum ELoginStatus {
   LOGIN = 'LOGIN',
