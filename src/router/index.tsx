@@ -4,6 +4,8 @@ import { routes } from './routes';
 import Container from '@/layout/container';
 import { IRouter } from '@/types/router';
 import { resolve } from '@/utils/path';
+import { ELayoutStyle } from '@/types/layout.d';
+import { Loading } from 'tdesign-react';
 
 type TMapRoutes = (routes: IRouter[], parentPath?: string, breadcrumb?: string[]) => React.ReactNode[];
 
@@ -13,8 +15,9 @@ export const mapRoutes: TMapRoutes = (routes, parentPath = '', breadcrumb = []) 
     const currentPath = resolve(parentPath, route.path);
     let renderChildRoute = null;
     let currentBreadcrumb = breadcrumb;
+    const layoutStyle = meta?.layoutStyle || ELayoutStyle.Mix;
 
-    if (meta?.title) {
+    if (meta?.showBreadcrumb && meta?.title) {
       currentBreadcrumb = currentBreadcrumb.concat([meta?.title]);
     }
 
@@ -39,8 +42,23 @@ export const mapRoutes: TMapRoutes = (routes, parentPath = '', breadcrumb = []) 
           path={currentPath}
           index={index}
           element={
-            <Container breadcrumbs={currentBreadcrumb}>
-              <Component />
+            <Container breadcrumbs={currentBreadcrumb} layoutStyle={layoutStyle}>
+              <Suspense
+                fallback={
+                  <Loading
+                    delay={200}
+                    fullscreen={true}
+                    indicator
+                    inheritColor={false}
+                    loading
+                    preventScrollThrough
+                    showOverlay
+                    size='medium'
+                  />
+                }
+              >
+                <Component />
+              </Suspense>
             </Container>
           }
         />

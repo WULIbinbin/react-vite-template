@@ -2,11 +2,13 @@ import { ELayoutStyle } from '@/types/layout.d';
 import { IRouter } from '@/types/router.d';
 import { lazy } from 'react';
 
-const Index = lazy(() => import('@/views/index/index'));
-const Order = lazy(() => import('@/views/order/index'));
-const InvoiceQuery = lazy(() => import('@/views/invoice/invoice-query/index'));
-const InvoiceCheck = lazy(() => import('@/views/invoice/invoice-check/index'));
-const Error = lazy(() => import('@/views/error/index'));
+const Index = lazy(() => import(/* webpackChunkName: "main" */ '@/views/index/index'));
+const Login = lazy(() => import(/* webpackChunkName: "main" */ '@/views/account/login/index'));
+const Error = lazy(() => import(/* webpackChunkName: "main" */ '@/views/error/index'));
+const Order = lazy(() => import(/* webpackChunkName: "order" */ '@/views/order/index'));
+const InvoiceQuery = lazy(() => import(/* webpackChunkName: "invoice" */ '@/views/invoice/invoice-query/index'));
+const InvoiceCheck = lazy(() => import(/* webpackChunkName: "invoice" */ '@/views/invoice/invoice-check/index'));
+const InvoiceDetail = lazy(() => import(/* webpackChunkName: "invoice" */ '@/views/invoice/invoice-detail/index'));
 
 export const routes: IRouter[] = [
   {
@@ -22,7 +24,7 @@ export const routes: IRouter[] = [
     path: '/',
     index: true,
     // 默认重定向到首页
-    redirect: '/index',
+    redirect: '/account/login',
   },
   {
     path: '/index',
@@ -30,13 +32,32 @@ export const routes: IRouter[] = [
     component: Index,
   },
   {
+    path: '/account',
+    redirect: '/account/login',
+  },
+  {
+    path: '/account',
+    children: [
+      {
+        path: '/login',
+        meta: { title: '用户登录', layoutStyle: ELayoutStyle.FullPage },
+        component: Login,
+      },
+    ],
+  },
+  {
     path: '/invoice',
-    meta: { title: '发票管理' },
+    meta: { title: '发票管理', showBreadcrumb: true },
     children: [
       {
         path: '/invoice-query',
         meta: { title: '发票查询', showBreadcrumb: true, layoutStyle: ELayoutStyle.Mix },
         component: InvoiceQuery,
+      },
+      {
+        path: '/invoice-detail',
+        meta: { title: '发票详情', showBreadcrumb: true, layoutStyle: ELayoutStyle.FullPage },
+        component: InvoiceDetail,
       },
       {
         path: '/invoice-check',

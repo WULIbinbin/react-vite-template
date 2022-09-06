@@ -1,0 +1,8 @@
+node_modules
+dist/*
+package.json
+yarn-error.log
+yarn.lock
+tsconfig.json
+vite.config.tsconfig
+README.md
