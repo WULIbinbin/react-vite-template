@@ -1,6 +1,6 @@
 import { Menu, Avatar, Switch, Space } from 'tdesign-react';
 import { CheckCircleFilledIcon, CheckCircleIcon } from 'tdesign-icons-react';
-import { useAppDispatch, useAppSelector, layoutActions, accountActions } from '@/store';
+import { useAppDispatch, useAppSelector, layoutActions } from '@/store';
 
 const { HeadMenu, SubMenu, MenuItem } = Menu;
 
