@@ -1,11 +1,11 @@
 import { layoutActions, useAppDispatch, useAppSelector } from '@/store';
-import { Breadcrumb, Space } from 'tdesign-react';
+import { Breadcrumb } from 'tdesign-react';
 import { IContainer } from '@/types/layout.d';
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 
 const { BreadcrumbItem } = Breadcrumb;
 
-export default function Index(props: IContainer) {
+export default memo((props: IContainer) => {
   const layout = useAppSelector((state) => state.layout);
   const { layoutStyle, children, breadcrumbs } = props;
   const dispatch = useAppDispatch();
@@ -26,4 +26,4 @@ export default function Index(props: IContainer) {
       <div className='g-container-body'>{children}</div>
     </div>
   );
-}
+});

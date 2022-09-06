@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite serve",
-    "build": "vite build",
-    "preview": "vite build --outDir=docs",
+    "dev": "vite serve --mode development",
+    "build": "vite build --mode production",
+    "preview": "vite build --mode production --outDir=docs",
     "lint": "eslint ./src --ext ts,tsx",
     "lint:fix": "eslint ./src --ext ts,tsx --fix",
     "prepare": "husky install"

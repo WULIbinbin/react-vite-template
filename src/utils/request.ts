@@ -1,9 +1,7 @@
 import axios from 'axios';
-import host from '@/configs/host';
 
-const ENV = 'MOCK';
 const TIMEOUT = 5000;
-const BASE_URL = host[ENV].baseUrl;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 const SUCCESS_CODE = 0;
 
 export const instance = axios.create({
@@ -13,15 +11,16 @@ export const instance = axios.create({
 });
 
 // 请求拦截器
-axios.interceptors.request.use(
+instance.interceptors.request.use(
   (config) => config,
   (error) => Promise.reject(error),
 );
 
 // 响应拦截器
-axios.interceptors.response.use(
+instance.interceptors.response.use(
   (response) => {
     const { status, data } = response;
+    console.log(response);
     if (status === 200) {
       if (data.code === SUCCESS_CODE) {
         return data;

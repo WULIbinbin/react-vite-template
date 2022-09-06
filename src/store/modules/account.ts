@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { CheckSession } from '@/api/account';
+import { CheckSession,Login } from '@/api/account';
 
 enum ELoginStatus {
   LOGIN = 'LOGIN',
@@ -23,10 +23,9 @@ const initialState: IAccount = {
 const checkSession = createAsyncThunk('account/checkSession', async () => {
   try {
     const res = await CheckSession();
-    console.log(res);
-    return true;
+    return res.data;
   } catch (error) {
-    return false;
+    return null;
   }
 });
 
