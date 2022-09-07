@@ -5288,10 +5288,10 @@ tdesign-icons-react@^0.1.6:
     "@babel/runtime" "^7.16.5"
     classnames "^2.2.6"
 
-tdesign-react@^0.40.4:
-  version "0.40.4"
-  resolved "https://registry.npmmirror.com/tdesign-react/-/tdesign-react-0.40.4.tgz#a2353661fa8175abf7dc7d60cd32bf2d04c691a0"
-  integrity sha512-uu39VBM8nylGqCgSIksJ8UwaYNWdhQjwW+U1cAe08Uihz06quEr5gW++SDoldVYDvJ5EeCgqzOVCvkood4S7AA==
+tdesign-react@^0.40.6:
+  version "0.40.6"
+  resolved "https://registry.npmmirror.com/tdesign-react/-/tdesign-react-0.40.6.tgz#fa157cf55d0fca756a5ae6c13258f398cd658fef"
+  integrity sha512-CQf/wYjF4mRW8e9w3D8vI2+T7i1HaGvgojIhSD37jt+PNLr6fW9zy+IcOqeCKBq1ZrdDYBdvEOemLsvBqFQCew==
   dependencies:
     "@babel/runtime" "~7.17.2"
     "@popperjs/core" "~2.11.2"
