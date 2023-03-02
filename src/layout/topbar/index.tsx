@@ -1,12 +1,14 @@
 import { Menu, Avatar, Switch, Space } from 'tdesign-react';
 import { CheckCircleFilledIcon, CheckCircleIcon } from 'tdesign-icons-react';
 import { useAppDispatch, useAppSelector, layoutActions } from '@/store';
+import { useNavigate } from 'react-router-dom';
 
 const { HeadMenu, SubMenu, MenuItem } = Menu;
 
 function Index() {
   const layout = useAppSelector((state) => state.layout);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   function handleMenu(value) {
     switch (value) {
@@ -21,6 +23,12 @@ function Index() {
     dispatch(layoutActions.switchTheme(!!value));
   }
 
+  function handleLogout() {
+    navigate('/account/login', {
+      replace: true,
+    });
+  }
+
   return (
     <HeadMenu theme={layout.theme} expandType='popup' onChange={handleMenu}>
       <SubMenu
@@ -29,7 +37,7 @@ function Index() {
       >
         <MenuItem value='mine'>个人中心</MenuItem>
         <MenuItem value='switch'>切换账号</MenuItem>
-        <MenuItem value='logout'>退出登录</MenuItem>
+        <MenuItem value='logout' onClick={handleLogout}>退出登录</MenuItem>
       </SubMenu>
       <Space align='center' size='small'>
         <Switch

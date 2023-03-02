@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { CheckSession, Login } from '@/api/account';
+import { anyAwait } from '@/utils/methods';
 
 enum ELoginStatus {
   LOGIN = 'LOGIN',
@@ -20,7 +21,7 @@ const initialState: IAccount = {
   loginStatus: ELoginStatus.LOGOUT,
 };
 
-const checkSession = createAsyncThunk('account/checkSession', async () => {
+export const checkSession = createAsyncThunk('account/checkSession', async () => {
   try {
     const res = await CheckSession();
     return res.data;
@@ -29,20 +30,31 @@ const checkSession = createAsyncThunk('account/checkSession', async () => {
   }
 });
 
+export const login = createAsyncThunk('account/login', async () => {
+  const [err, res] = await anyAwait(Login());
+  console.log(res);
+  if (err) return Promise.reject();
+  return res.data;
+});
+
 const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(checkSession.fulfilled, (state) => {
-      state.loginStatus = ELoginStatus.LOGIN;
-    });
-    builder.addCase(checkSession.rejected, (state) => {
-      state.loginStatus = ELoginStatus.LOGERR;
-    });
+  // extraReducers: (builder) => {
+  //   builder.addCase(login.fulfilled, (state) => {
+  //     console.log(state);
+  //     state.loginStatus = ELoginStatus.LOGIN;
+  //   });
+  //   builder.addCase(login.rejected, (state) => {
+  //     state.loginStatus = ELoginStatus.LOGERR;
+  //   });
+  // },
+  extraReducers: {
+    [login.fulfilled](state, action) {
+      console.log(state, action);
+    },
   },
 });
-
-export { checkSession };
 
 export default accountSlice;

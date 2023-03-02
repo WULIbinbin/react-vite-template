@@ -1,5 +1,5 @@
 import { ConfigEnv, UserConfigExport } from 'vite';
-import { resolve } from 'path';
+import path, { resolve } from 'path';
 import { viteMockServe } from 'vite-plugin-mock';
 // import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
 import visualizer from 'rollup-plugin-visualizer';
@@ -7,6 +7,8 @@ import visualizer from 'rollup-plugin-visualizer';
 function lessModifyVars(lessPaths: string[]) {
   return lessPaths.reduce((prev, curv) => `${prev}@import (reference) "${resolve(curv)}"; `, 'true;');
 }
+
+console.log(path.resolve('mock'));
 
 export default ({ command }: ConfigEnv): UserConfigExport => ({
   base: './',
@@ -16,8 +18,9 @@ export default ({ command }: ConfigEnv): UserConfigExport => ({
   },
   plugins: [
     viteMockServe({
-      mockPath: 'mock',
+      mockPath: path.resolve('mock'),
       localEnabled: command === 'serve',
+      watchFiles: true,
     }),
     // manualChunksPlugin(),
     visualizer({
@@ -51,7 +54,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => ({
       output: {
         manualChunks: {
           vendor: ['react', 'react-router-dom', 'react-dom', 'react-redux', '@reduxjs/toolkit'],
-          layout: ['tdesign-icons-react','tdesign-react'],
+          layout: ['tdesign-icons-react', 'tdesign-react'],
         },
       },
     },

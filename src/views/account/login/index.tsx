@@ -2,6 +2,9 @@ import { memo, useState, useRef } from 'react';
 import { Form, Input, Button, Tooltip } from 'tdesign-react';
 import { DesktopIcon, LockOnIcon } from 'tdesign-icons-react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { login } from '@/store/modules/account';
+import { useAwait } from '@/utils/hooks';
 
 import './index.less';
 
@@ -25,6 +28,7 @@ export default memo(() => {
   const [formData, setFormData] = useState<IFormData>(initData);
   const form = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   function handleInput(key, value) {
     setFormData({
@@ -41,7 +45,7 @@ export default memo(() => {
     }
   }
 
-  function handleSubmit({ validateResult }) {
+  async function handleSubmit({ validateResult }) {
     console.log(form.current);
     const formRef = form.current;
     if (validateResult === true) {
@@ -59,13 +63,17 @@ export default memo(() => {
         formRef.setValidateMessage({
           account: [{ type: 'error', message: '账号不存在' }],
         });
-      } else if (formData.password !== initData.password) {
+        return;
+      }
+      if (formData.password !== initData.password) {
         formRef.setValidateMessage({
           password: [{ type: 'error', message: '密码错误' }],
         });
-      } else {
-        navigate('/index', { replace: true });
+        return;
       }
+      const res = await dispatch(login(2333));
+      console.log(res);
+      if (res.payload) navigate('/index', { replace: true });
     }
   }
 
