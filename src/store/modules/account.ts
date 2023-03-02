@@ -32,8 +32,7 @@ export const checkSession = createAsyncThunk('account/checkSession', async () =>
 
 export const login = createAsyncThunk('account/login', async () => {
   const [err, res] = await anyAwait(Login());
-  console.log(res);
-  if (err) return Promise.reject();
+  if (err) return Promise.reject(err);
   return res.data;
 });
 
@@ -41,20 +40,20 @@ const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {},
-  // extraReducers: (builder) => {
-  //   builder.addCase(login.fulfilled, (state) => {
-  //     console.log(state);
-  //     state.loginStatus = ELoginStatus.LOGIN;
-  //   });
-  //   builder.addCase(login.rejected, (state) => {
-  //     state.loginStatus = ELoginStatus.LOGERR;
-  //   });
-  // },
-  extraReducers: {
-    [login.fulfilled](state, action) {
-      console.log(state, action);
-    },
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state) => {
+      console.log(state);
+      state.loginStatus = ELoginStatus.LOGIN;
+    });
+    builder.addCase(login.rejected, (state) => {
+      state.loginStatus = ELoginStatus.LOGERR;
+    });
   },
+  // extraReducers: {
+  //   [login.fulfilled](state, action) {
+  //     console.log(state, action);
+  //   },
+  // },
 });
 
 export default accountSlice;

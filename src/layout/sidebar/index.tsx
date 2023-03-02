@@ -17,7 +17,7 @@ function mapMenu(child: ISidebar[]): React.ReactNode[] {
       );
     }
     return (
-      <SubMenu key={item.to} title={item.name}>
+      <SubMenu value={item.to} key={item.to} title={item.name}>
         {mapMenu(item.children)}
       </SubMenu>
     );
@@ -36,6 +36,7 @@ function Index() {
 
   const handleChange = useCallback(
     (value) => {
+      console.log(value)
       setActive(value);
       navigate(value);
     },

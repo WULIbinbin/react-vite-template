@@ -5,10 +5,11 @@ import { lazy } from 'react';
 const Index = lazy(() => import(/* webpackChunkName: "main" */ '@/views/index/index'));
 const Login = lazy(() => import(/* webpackChunkName: "main" */ '@/views/account/login/index'));
 const Error = lazy(() => import(/* webpackChunkName: "main" */ '@/views/error/index'));
-const Order = lazy(() => import(/* webpackChunkName: "order" */ '@/views/order/index'));
 const InvoiceQuery = lazy(() => import(/* webpackChunkName: "invoice" */ '@/views/invoice/invoice-query/index'));
 const InvoiceCheck = lazy(() => import(/* webpackChunkName: "invoice" */ '@/views/invoice/invoice-check/index'));
 const InvoiceDetail = lazy(() => import(/* webpackChunkName: "invoice" */ '@/views/invoice/invoice-detail/index'));
+const FormSandbox = lazy(() => import(/* webpackChunkName: "form" */ '@/views/form/sandbox/index'));
+
 
 export const routes: IRouter[] = [
   {
@@ -71,8 +72,18 @@ export const routes: IRouter[] = [
     redirect: '/invoice/invoice-query',
   },
   {
-    path: '/order',
-    meta: { title: '订单管理', showBreadcrumb: true, layoutStyle: ELayoutStyle.Topbar },
-    component: Order,
+    path: '/form',
+    meta: { title: '表单管理', showBreadcrumb: true },
+    children: [
+      {
+        path: '/form-sandbox',
+        meta: { title: '表单设计', showBreadcrumb: true, layoutStyle: ELayoutStyle.Mix },
+        component: FormSandbox,
+      },
+    ],
+  },
+  {
+    path: '/form',
+    redirect: '/form/sandbox',
   },
 ];

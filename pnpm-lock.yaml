@@ -24,6 +24,7 @@ specifiers:
   react-redux: ^8.0.2
   react-router-dom: ^6.3.0
   rollup-plugin-visualizer: ^5.8.1
+  sortablejs: ^1.15.0
   tdesign-icons-react: ^0.1.6
   tdesign-react: ^0.40.6
   typescript: ^4.7.4
@@ -38,6 +39,7 @@ dependencies:
   react-dom: 18.2.0_react@18.2.0
   react-redux: 8.0.5_3xleytyzprlgycb2ded54tx72i
   react-router-dom: 6.8.2_biqbaboplfbrettd7655fr4n2y
+  sortablejs: 1.15.0
   tdesign-icons-react: 0.1.7_biqbaboplfbrettd7655fr4n2y
   tdesign-react: 0.40.6_biqbaboplfbrettd7655fr4n2y
 

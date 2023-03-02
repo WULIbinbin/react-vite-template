@@ -1,0 +1,26 @@
+.form-sandbox {
+  &__main {
+    .flex-row();
+    height: 100%;
+  }
+  &__components {
+    width: 200px;
+    .flex-column-start();
+    flex-wrap: wrap;
+    span {
+      width: 80px;
+      height: 80px;
+      margin: 10px;
+      background-color: #444;
+      font-size: 18px;
+      color: #fff;
+    }
+  }
+  &__content {
+    flex: 1;
+    background-color: #e2e2e2;
+  }
+  &__dispose {
+    width: 240px;
+  }
+}

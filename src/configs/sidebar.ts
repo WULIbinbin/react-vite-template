@@ -20,8 +20,14 @@ const sidebar: ISidebar[] = [
     ],
   },
   {
-    name: '订单管理',
-    to: '/order',
+    name: '表单管理',
+    to: '/form',
+    children: [
+      {
+        name: '表单设计',
+        to: '/form/form-sandbox',
+      },
+    ],
   },
 ];
 

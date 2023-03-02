@@ -8,8 +8,6 @@ function lessModifyVars(lessPaths: string[]) {
   return lessPaths.reduce((prev, curv) => `${prev}@import (reference) "${resolve(curv)}"; `, 'true;');
 }
 
-console.log(path.resolve('mock'));
-
 export default ({ command }: ConfigEnv): UserConfigExport => ({
   base: './',
   mode: 'development',
@@ -18,9 +16,9 @@ export default ({ command }: ConfigEnv): UserConfigExport => ({
   },
   plugins: [
     viteMockServe({
-      mockPath: path.resolve('mock'),
+      mockPath: path.resolve('mock/index'),
       localEnabled: command === 'serve',
-      watchFiles: true,
+      // watchFiles: true,
     }),
     // manualChunksPlugin(),
     visualizer({
