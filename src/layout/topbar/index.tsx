@@ -37,7 +37,9 @@ function Index() {
       >
         <MenuItem value='mine'>个人中心</MenuItem>
         <MenuItem value='switch'>切换账号</MenuItem>
-        <MenuItem value='logout' onClick={handleLogout}>退出登录</MenuItem>
+        <MenuItem value='logout' onClick={handleLogout}>
+          退出登录
+        </MenuItem>
       </SubMenu>
       <Space align='center' size='small'>
         <Switch

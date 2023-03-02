@@ -4,7 +4,6 @@ import { DesktopIcon, LockOnIcon } from 'tdesign-icons-react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/modules/account';
-import { useAwait } from '@/utils/hooks';
 
 import './index.less';
 
