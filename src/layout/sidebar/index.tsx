@@ -36,7 +36,7 @@ function Index() {
 
   const handleChange = useCallback(
     (value) => {
-      console.log(value)
+      console.log(value);
       setActive(value);
       navigate(value);
     },

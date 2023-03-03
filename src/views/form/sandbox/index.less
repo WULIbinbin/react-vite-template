@@ -7,20 +7,45 @@
     width: 200px;
     .flex-column-start();
     flex-wrap: wrap;
-    span {
+    &--item{
       width: 80px;
-      height: 80px;
+      height: 40px;
       margin: 10px;
       background-color: #444;
       font-size: 18px;
       color: #fff;
     }
+    &--wrap {
+      width: 180px;
+    }
+  }
+  &__dispose {
+    width: 240px;
+  }
+  &__wrap{
+    height: 140px;
+    width: 100%;
+    row-gap: 12px;
+    background-color: #fe9249;
   }
   &__content {
     flex: 1;
     background-color: #e2e2e2;
+    .flex-column-start();
   }
-  &__dispose {
-    width: 240px;
+  &__payground{
+    height: 100%;
+    width: 100%;
+    &--wrap {
+      width: 240px;
+      min-height: 100px;
+      margin: 10px;
+      background-color: #444;
+      font-size: 18px;
+      color: #fff;
+    }
+    &--item{
+      margin: 10px;
+    }
   }
 }

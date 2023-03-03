@@ -1,3 +1,3 @@
-export default function Index() {
-  return <div>Index</div>;
+export function Index() {
+  return <div>2333</div>;
 }

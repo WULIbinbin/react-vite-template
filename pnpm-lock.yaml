@@ -5,6 +5,7 @@ specifiers:
   '@types/react': ^18.0.17
   '@types/react-dom': ^18.0.6
   '@types/react-router-dom': ^5.3.3
+  '@types/sortablejs': ^1.15.0
   axios: ^0.27.2
   eslint: ^8.3.0
   eslint-config-airbnb-base: ^15.0.0
@@ -17,12 +18,15 @@ specifiers:
   jest: ^27.0.6
   less: ^4.1.3
   less-loader: ^11.0.0
+  lodash: ^4.17.21
+  lodash-es: ^4.17.21
   mockjs: ^1.1.0
   prettier: ^2.7.1
   react: ^18.2.0
   react-dom: ^18.2.0
   react-redux: ^8.0.2
   react-router-dom: ^6.3.0
+  react-sortablejs: ^6.1.4
   rollup-plugin-visualizer: ^5.8.1
   sortablejs: ^1.15.0
   tdesign-icons-react: ^0.1.6
@@ -34,11 +38,15 @@ specifiers:
 
 dependencies:
   '@reduxjs/toolkit': 1.9.3_k4ae6lp43ej6mezo3ztvx6pykq
+  '@types/sortablejs': 1.15.0
   axios: 0.27.2
+  lodash: 4.17.21
+  lodash-es: 4.17.21
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-redux: 8.0.5_3xleytyzprlgycb2ded54tx72i
   react-router-dom: 6.8.2_biqbaboplfbrettd7655fr4n2y
+  react-sortablejs: 6.1.4_pkvhgat2fktt3g4eqjjiisgkie
   sortablejs: 1.15.0
   tdesign-icons-react: 0.1.7_biqbaboplfbrettd7655fr4n2y
   tdesign-react: 0.40.6_biqbaboplfbrettd7655fr4n2y
@@ -2627,6 +2635,10 @@ packages:
     resolution: {integrity: sha512-cOU9usZw8/dXIXKtwa8pM0OTJQuJkxMN6w30csNRUerHfeQ5R6U3kkU/FtJeIf3M202OHfY2U8ccInBG7/xogA==}
     dev: true
 
+  /classnames/2.3.1:
+    resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
+
   /classnames/2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
@@ -5130,6 +5142,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.debounce/4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
     dev: true
@@ -5729,6 +5745,22 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-sortablejs/6.1.4_pkvhgat2fktt3g4eqjjiisgkie:
+    resolution: {integrity: sha512-fc7cBosfhnbh53Mbm6a45W+F735jwZ1UFIYSrIqcO/gRIFoDyZeMtgKlpV4DdyQfbCzdh5LoALLTDRxhMpTyXQ==}
+    peerDependencies:
+      '@types/sortablejs': '1'
+      react: '>=16.9.0'
+      react-dom: '>=16.9.0'
+      sortablejs: '1'
+    dependencies:
+      '@types/sortablejs': 1.15.0
+      classnames: 2.3.1
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+      sortablejs: 1.15.0
+      tiny-invariant: 1.2.0
+    dev: false
+
   /react-transition-group/4.4.5_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-pZcd1MCJoiKiBR2NRxeCRg13uCXbydPnmB4EOeRrY7480qNWO8IIgQG6zlDkm6uRMsURXPuKq0GWtiM59a5Q6g==}
     peerDependencies:
@@ -6235,6 +6267,10 @@ packages:
   /throat/6.0.2:
     resolution: {integrity: sha512-WKexMoJj3vEuK0yFEapj8y64V0A6xcuPuK9Gt1d0R+dzCSJc0lHqQytAbSB4cDAK0dWh4T0E2ETkoLE2WZ41OQ==}
     dev: true
+
+  /tiny-invariant/1.2.0:
+    resolution: {integrity: sha512-1Uhn/aqw5C6RI4KejVeTg6mIS7IqxnLJ8Mv2tV5rTc0qWobay7pDUz6Wi392Cnc8ak1H0F2cjoRzb2/AW4+Fvg==}
+    dev: false
 
   /tinycolor2/1.6.0:
     resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}

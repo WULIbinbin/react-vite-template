@@ -14,3 +14,31 @@ export function anyAwait(func: TRun): Promise<TAwaitReturn> {
       });
   });
 }
+
+export function arrayToTree<T>(ary: T[], root: string | null): T[] {
+  console.log(root);
+  const result = [];
+  const map = {};
+  // eslint-disable-next-line no-restricted-syntax
+  for (const ia of ary) {
+    const { parentId: pid, itemId: id } = ia as any;
+    map[id] = {
+      ...ia,
+      children: map[id]?.children || [],
+    };
+
+    const item = map[id];
+
+    if (pid === root) {
+      result.push(item);
+    } else {
+      if (!map[pid]) {
+        map[pid] = {
+          children: [],
+        };
+      }
+      map[pid].children.push(item);
+    }
+  }
+  return result;
+}

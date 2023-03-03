@@ -10,7 +10,6 @@ const InvoiceCheck = lazy(() => import(/* webpackChunkName: "invoice" */ '@/view
 const InvoiceDetail = lazy(() => import(/* webpackChunkName: "invoice" */ '@/views/invoice/invoice-detail/index'));
 const FormSandbox = lazy(() => import(/* webpackChunkName: "form" */ '@/views/form/sandbox/index'));
 
-
 export const routes: IRouter[] = [
   {
     path: '*',
