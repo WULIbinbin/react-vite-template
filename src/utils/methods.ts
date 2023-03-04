@@ -15,8 +15,9 @@ export function anyAwait(func: TRun): Promise<TAwaitReturn> {
   });
 }
 
-export function arrayToTree<T>(ary: T[], root: string | null): T[] {
-  console.log(root);
+type TAtot<T> = [T[], { [key: string]: T }];
+
+export function arrayToTree<T>(ary: T[], root: string | null): TAtot<T> {
   const result = [];
   const map = {};
   // eslint-disable-next-line no-restricted-syntax
@@ -40,15 +41,17 @@ export function arrayToTree<T>(ary: T[], root: string | null): T[] {
       map[pid].children.push(item);
     }
   }
-  return result;
+  return [result, map];
 }
 
-export function getFormId(e = 32) {
+export const mainKey = 'form-id';
+
+export function getFormId(e = 8) {
   const t = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
   const a = t.length;
   let n = '';
   for (let i = 0; i < e; i++) {
     n += t.charAt(Math.floor(Math.random() * a));
   }
-  return `form-id-${n}`;
+  return `${mainKey}-${n}`;
 }
