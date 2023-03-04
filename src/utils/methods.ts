@@ -55,3 +55,22 @@ export function getFormId(e = 8) {
   }
   return `${mainKey}-${n}`;
 }
+
+export function arraySwap(arr: any[], idx1, idx2) {
+  const temp = arr[idx1];
+  arr[idx1] = arr[idx2];
+  arr[idx2] = temp;
+  return arr;
+}
+
+export function arrayDistinct<T>(group: [T[], T[]], key: string): T {
+  const longer = group[0].length - group[1].length > 0 ? 0 : 1;
+  const short = longer ? 0 : 1;
+  let result: T;
+  group[longer].forEach((l) => {
+    if (group[short].findIndex((s) => s[key] === l[key]) === -1) {
+      result = l;
+    }
+  });
+  return result;
+}
