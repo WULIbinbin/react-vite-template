@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { ReactSortable, ItemInterface, SortableEvent } from 'react-sortablejs';
@@ -33,6 +34,7 @@ function mapSelected<T>(child: T[], parent: T): T[] {
         s.children = s.children || [];
         map(s.children, s);
       }
+      console.log(s);
       tempArr.push(s);
     });
   }
@@ -77,6 +79,7 @@ function containerReducer<T>(state: T[], action: ICtRdr<T>) {
   const { eventType, selected, toDelete, parent } = action;
   switch (eventType) {
     case EEvt.ON_ADD:
+      console.log('新增节点操作');
       // wrap中子组件的新增操作
       current = [
         // 4、all中筛除已存在的表单，插入新的表单项，避免vdom.key重复渲染
@@ -85,18 +88,20 @@ function containerReducer<T>(state: T[], action: ICtRdr<T>) {
       ];
       break;
     case EEvt.ON_REMOVE:
-      console.log('--------',selected,parent)
-      // eslint-disable-next-line no-case-declarations
+      console.log('--------', selected, parent);
+      console.log('删除节点操作');
       const isDeleteItem = (t: T) => t.itemId === toDelete.itemId && t.parentId === toDelete.parentId;
-      current = [...allSelected.filter((t) => !isDeleteItem(t)), ...selected];
+      current = allSelected.filter((t) => !isDeleteItem(t));
       break;
     default:
-      current = allSelected;
+      console.log('交换节点操作', selected);
+      current = [...allSelected.filter((t) => selected.findIndex((f) => f.itemId === t.itemId) === -1), ...selected];
   }
-  console.log(state, action, allSelected);
+
   allSelected = current;
+  // console.log(state, selected, allSelected);
   const [tree, map] = arrayToTree<T>(current, null);
-  console.log('tree', tree, map, allSelected);
+  // console.log('tree', tree, map);
   return tree;
 }
 
@@ -105,42 +110,52 @@ export default function Index() {
   const [containerState, dispatchContainer] = useReducer(containerReducer<ItemType>, initContainer);
   const containerRef = useRef();
 
-  const diffComponent = (selected: ItemType[], from: string, parent?: ItemType, toDelete?: T) => {
-    console.log(`from:${from}`);
+  const diffComponent = (selected: ItemType[], eventType: EEvt, parent?: ItemType, toDelete?: T) => {
     if (!selected.length && !!parent) {
       // return;
     }
     // 2、创建数组递归收集所有表单，用itemId和parentId关联
-    const tempSelected = mapSelected<ItemType>(selected, parent);
+    // * 深拷贝select防止对象引用导致dom.key重复
+    const cloneParent = _cloneDeep(parent);
+    const cloneSelected = _cloneDeep(selected);
+    const tempSelected = mapSelected<ItemType>(cloneSelected, cloneParent);
+    console.log(`操作${eventType}`, tempSelected, cloneParent);
+    dispatchContainer({
+      eventType,
+      selected: tempSelected,
+      toDelete,
+      parent: cloneParent,
+    });
     if (parent) {
-      console.log('子级操作');
-      if (tempSelected.length >= parent.children.length) {
-        console.log('子级新增操作', selected, parent);
-        dispatchContainer({
-          eventType: EEvt.ON_ADD,
-          selected: tempSelected,
-          parent,
-        });
-      } else {
-        // wrap中子组件的删除操作
-        console.log('子级删除操作', selected, parent);
-        dispatchContainer({
-          eventType: EEvt.ON_ADD,
-          selected: tempSelected,
-          toDelete,
-          parent,
-        });
-        // current = allSelected.filter((t) => arrayDistinct([tempSelected, parent.children], 'itemId').itemId !== t.itemId);
-      }
+      // console.log('子级操作', tempSelected, parent.children);
+      // if (eventType === EEvt.ON_ADD) {
+      //   console.log('子级新增操作', selected, tempSelected);
+      //   dispatchContainer({
+      //     eventType,
+      //     selected: tempSelected,
+      //     parent,
+      //   });
+      // } else if (eventType === EEvt.ON_REMOVE) {
+      //   // wrap中子组件的删除操作
+      //   console.log('子级删除操作', selected, tempSelected);
+      //   dispatchContainer({
+      //     eventType,
+      //     selected: tempSelected,
+      //     toDelete,
+      //     parent,
+      //   });
+      // }
     } else {
-      console.log('根级操作', tempSelected, allSelected);
-      if (tempSelected.length >= allSelected.length) {
-        dispatchContainer({
-          eventType: EEvt.ON_ADD,
-          selected: tempSelected,
-          parent,
-        });
-      }
+      // if (eventType === EEvt.ON_ADD) {
+      //   console.log('根级新增操作', selected, tempSelected);
+      //   dispatchContainer({
+      //     eventType,
+      //     selected: tempSelected,
+      //     parent,
+      //   });
+      // } else {
+      //   console.log('根级删除操作', selected, tempSelected);
+      // }
     }
   };
 
@@ -150,32 +165,28 @@ export default function Index() {
     return comp;
   };
 
-  const addComponent = (evt: SortableEvent, from: string, target: ItemType[], parent?: ItemType) => {
+  const addComponent = (evt: SortableEvent, target: ItemType[], parent?: ItemType) => {
     const { item, newDraggableIndex } = evt;
     const comp = findComp(item);
     // 非注册组件返回
     if (!comp) return;
-    // 深拷贝避免对象引用
-    const cloneComps = _cloneDeep(target);
-    cloneComps.splice(newDraggableIndex, 0, comp);
-    const selected = target.length === 0 ? [comp] : cloneComps;
-    console.log('addComponent', selected);
-    diffComponent(selected, from, parent);
+    const selected = target;
+    selected.splice(newDraggableIndex, 0, comp);
+    diffComponent(selected, EEvt.ON_ADD, parent);
   };
 
-  const updateComponent = (evt: SortableEvent, from: string, target: ItemType[], parent?: ItemType) => {
+  const updateComponent = (evt: SortableEvent, target: ItemType[], parent?: ItemType) => {
     const { newDraggableIndex, oldDraggableIndex } = evt;
-    const cloneComps = _cloneDeep(target);
-    diffComponent(arraySwap(cloneComps, newDraggableIndex, oldDraggableIndex), from, parent);
+    diffComponent(arraySwap(target, newDraggableIndex, oldDraggableIndex), EEvt.ON_UPDATE, parent);
   };
 
-  const removeComponent = (evt: SortableEvent, from: string, target: ItemType[], parent?: ItemType) => {
+  const removeComponent = (evt: SortableEvent, target: ItemType[], parent?: ItemType) => {
     const { oldDraggableIndex } = evt;
-    const cloneComps = _cloneDeep(target);
-    const toDelete = cloneComps[oldDraggableIndex];
-    cloneComps.splice(oldDraggableIndex, 1);
+    const selected = target;
+    const toDelete = selected[oldDraggableIndex];
+    selected.splice(oldDraggableIndex, 1);
     console.log('删除项', toDelete);
-    diffComponent(cloneComps, from, parent, toDelete);
+    diffComponent(selected, EEvt.ON_REMOVE, parent, toDelete);
   };
 
   function renderContainer(current: ItemType[]) {
@@ -200,15 +211,15 @@ export default function Index() {
               list={item.children}
               onUpdate={(e) => {
                 console.log('child-onUpdate操作------------------->');
-                updateComponent(e, item.itemId, item.children, item);
+                updateComponent(e, item.children, item);
               }}
               onAdd={(e) => {
                 console.log('child-onAdd操作------------------->');
-                addComponent(e, item.itemId, item.children, item);
+                addComponent(e, item.children, item);
               }}
               onRemove={(e) => {
                 console.log('child-onRemove操作------------------->');
-                removeComponent(e, item.itemId, item.children, item);
+                removeComponent(e, item.children, item);
               }}
               // 废弃，用on-event代替
               setList={() => {}}
@@ -226,7 +237,7 @@ export default function Index() {
   }
 
   useEffect(() => {
-    console.log('container', containerState, allSelected);
+    // console.log('container', containerState, allSelected);
   }, [containerState]);
 
   return (
@@ -270,15 +281,15 @@ export default function Index() {
           list={containerState}
           onUpdate={(e) => {
             console.log('container-onUpdate操作------------------->');
-            updateComponent(e, 'root', containerState);
+            updateComponent(e, containerState, null);
           }}
           onAdd={(e) => {
             console.log('container-onAdd操作------------------->');
-            addComponent(e, 'root', containerState);
+            addComponent(e, containerState, null);
           }}
           onRemove={(e) => {
             console.log('container-onRemove操作------------------->');
-            removeComponent(e, 'root', containerState);
+            removeComponent(e, containerState, null);
           }}
           // 废弃，用on-event代替
           setList={() => {}}
