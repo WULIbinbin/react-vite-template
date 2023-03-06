@@ -1,12 +1,14 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unknown-property */
-import { useEffect, useReducer, useState } from 'react';
+import { useContext, useEffect, useReducer, useState } from 'react';
 import { ReactSortable, ItemInterface, SortableEvent } from 'react-sortablejs';
 import { renderContainer } from './components/components';
 import _cloneDeep from 'lodash-es/cloneDeep';
 import { arrayToTree, arraySwap, mapSelected } from '@/utils/methods';
 
 import './index.less';
+import { Observer } from '@/utils/observer';
+import { EventContext } from './ctx';
 
 export interface ItemType extends ItemInterface {
   parentId?: string;
@@ -55,6 +57,8 @@ interface ICtRdr<T> {
 
 const initContainer = [];
 let allSelected = [];
+
+const RemoveObserver = new Observer();
 
 function containerReducer<T>(state: T[], action: ICtRdr<T>) {
   let current: T[];
@@ -160,76 +164,84 @@ export default function Index() {
         // 废弃，用on-event代替
         setList={() => {}}
       >
-        {(item.children && renderContainer(item.children, renderChildContainer)) || null}
+        {(item.children && renderContainer(item.children, { renderChild: renderChildContainer,parent:item })) || null}
       </ReactSortable>
     );
   }
 
   useEffect(() => {
-    // console.log('container', containerState, allSelected);
+    RemoveObserver.watch((o) => {
+      console.log('删除操作来源：', o);
+      removeComponent({ oldDraggableIndex: o.idx } as SortableEvent, o.current, o.parent);
+    });
+    return () => {
+      RemoveObserver.destroy();
+    };
   }, [containerState]);
 
   return (
-    <div className='form-sandbox__main'>
-      <div className='form-sandbox__components'>
-        <ReactSortable
-          tag={'div'}
-          group={{
-            name: 'component',
-            pull: 'clone',
-            put: false,
-          }}
-          sort={false}
-          list={components}
-          setList={(e) => {
-            setComponents(e);
-          }}
-        >
-          {components.map((item) => (
-            <div
-              className={`form-sandbox__components--item form-sandbox__components--${item.compType}`}
-              key={item.compId}
-              comp-type={item.compType}
-            >
-              {item.compName}
-            </div>
-          ))}
-        </ReactSortable>
+    <EventContext.Provider value={{ RemoveObserver }}>
+      <div className='form-sandbox__main'>
+        <div className='form-sandbox__components'>
+          <ReactSortable
+            tag={'div'}
+            group={{
+              name: 'component',
+              pull: 'clone',
+              put: false,
+            }}
+            sort={false}
+            list={components}
+            setList={(e) => {
+              setComponents(e);
+            }}
+          >
+            {components.map((item) => (
+              <div
+                className={`form-sandbox__components--item form-sandbox__components--${item.compType}`}
+                key={item.compId}
+                comp-type={item.compType}
+              >
+                {item.compName}
+              </div>
+            ))}
+          </ReactSortable>
+        </div>
+        <div className='form-sandbox__content'>
+          <ReactSortable
+            tag={'div'}
+            className='form-sandbox__payground'
+            group={{
+              name: 'component',
+              pull: true,
+              put: true,
+            }}
+            swap
+            direction={'horizontal'}
+            fallbackOnBody={true}
+            swapThreshold={1}
+            animation={200}
+            list={containerState}
+            onUpdate={(e) => {
+              console.log('container-onUpdate操作------------------->');
+              updateComponent(e, containerState, null);
+            }}
+            onAdd={(e) => {
+              console.log('container-onAdd操作------------------->');
+              addComponent(e, containerState, null);
+            }}
+            onRemove={(e) => {
+              console.log('container-onRemove操作------------------->');
+              removeComponent(e, containerState, null);
+            }}
+            // 废弃，用on-event代替
+            setList={() => {}}
+          >
+            {renderContainer(containerState, { renderChild: renderChildContainer })}
+          </ReactSortable>
+          {showDispose && <div className='form-sandbox__dispose'></div>}
+        </div>
       </div>
-      <div className='form-sandbox__content'>
-        <ReactSortable
-          tag={'div'}
-          className='form-sandbox__payground'
-          group={{
-            name: 'component',
-            pull: true,
-            put: true,
-          }}
-          swap
-          direction={'horizontal'}
-          fallbackOnBody={true}
-          swapThreshold={1}
-          animation={200}
-          list={containerState}
-          onUpdate={(e) => {
-            console.log('container-onUpdate操作------------------->');
-            updateComponent(e, containerState, null);
-          }}
-          onAdd={(e) => {
-            console.log('container-onAdd操作------------------->');
-            addComponent(e, containerState, null);
-          }}
-          onRemove={(e) => {
-            console.log('container-onRemove操作------------------->');
-            removeComponent(e, containerState, null);
-          }}
-          // 废弃，用on-event代替
-          setList={() => {}}
-        >
-          {renderContainer(containerState, renderChildContainer)}
-        </ReactSortable>
-        {showDispose && <div className='form-sandbox__dispose'></div>}
-      </div>
-    </div>
+    </EventContext.Provider>
   );
 }
