@@ -38,7 +38,8 @@ export function arrayToTree<T>(ary: T[], root: string | null): TAtot<T> {
           children: [],
         };
       }
-      map[pid].children.push(item);
+      console.log(item, item.nodeIndex);
+      map[pid].children.splice(item.nodeIndex, 0, item);
     }
   }
   return [result, map];
@@ -56,13 +57,48 @@ export function getFormId(e = 8) {
   return `${mainKey}-${n}`;
 }
 
-export function arraySwap(arr: any[], idx1, idx2) {
-  const temp = arr[idx1];
-  arr[idx1] = arr[idx2];
-  arr[idx2] = temp;
-  return arr;
+/**
+ * 数组一项交换位置
+ * @param arr
+ * @param oldIdx
+ * @param newIdx
+ * @returns arr
+ */
+export function arraySwap(arr: any[], oldIdx, newIdx) {
+  const len = Math.abs(oldIdx - newIdx);
+  const tempArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (oldIdx > newIdx) {
+      if (i > oldIdx || i < newIdx) {
+        tempArr[i] = arr[i];
+      }
+      if (i === newIdx) {
+        tempArr[i] = arr[oldIdx];
+        for (let j = 0; j < len; j++) {
+          tempArr[i + j + 1] = arr[i + j];
+        }
+      }
+    } else {
+      if (i > newIdx || i < oldIdx) {
+        tempArr[i] = arr[i];
+      }
+      if (i === oldIdx) {
+        for (let j = 0; j < len; j++) {
+          tempArr[i + j] = arr[i + j + 1];
+        }
+        tempArr[i + len] = arr[oldIdx];
+      }
+    }
+  }
+  return tempArr;
 }
 
+/**
+ * 求group中两个数组的并集
+ * @param group [arr,arr]
+ * @param key 数组用做对比的key
+ * @returns []
+ */
 export function arrayDistinct<T>(group: [T[], T[]], key: string): T {
   const longer = group[0].length - group[1].length > 0 ? 0 : 1;
   const short = longer ? 0 : 1;

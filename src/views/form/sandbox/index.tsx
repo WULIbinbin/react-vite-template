@@ -14,27 +14,29 @@ interface ItemType extends ItemInterface {
   itemId?: string;
   compName: string;
   compType: string;
+  nodeIndex?: number;
   children?: ItemType[];
 }
 
 const component = [
-  { compId: '1', compName: 'wrap', compType: 'wrap' },
-  { compId: '2', compName: 'input', compType: 'input' },
-  { compId: '3', compName: 'picker', compType: 'picker' },
+  { compId: '1', compName: '栅格', compType: 'wrap' },
+  { compId: '2', compName: '输入框', compType: 'input' },
+  { compId: '3', compName: '下拉选择器', compType: 'selector' },
+  { compId: '4', compName: '日期选择器', compType: 'date-picker' },
 ];
 
 function mapSelected<T>(child: T[], parent: T): T[] {
   const tempArr = [];
   function map(arr: T[], parent: T) {
-    arr.forEach((s: T) => {
+    arr.forEach((s: T, idx: number) => {
       s.itemId = s.itemId || getFormId();
       s.parentId = s.parentId || parent?.itemId || null;
-
+      // nodeIndex始终根据遍历顺序
+      s.nodeIndex = idx;
       if (s.compType === 'wrap') {
         s.children = s.children || [];
         map(s.children, s);
       }
-      console.log(s);
       tempArr.push(s);
     });
   }
@@ -68,7 +70,6 @@ interface ICtRdr<T> {
   eventType: EEvt;
   selected: T[];
   toDelete?: T;
-  parent?: T | null;
 }
 
 const initContainer = [];
@@ -76,10 +77,9 @@ let allSelected = [];
 
 function containerReducer<T>(state: T[], action: ICtRdr<T>) {
   let current: T[];
-  const { eventType, selected, toDelete, parent } = action;
+  const { eventType, selected, toDelete } = action;
   switch (eventType) {
     case EEvt.ON_ADD:
-      console.log('新增节点操作');
       // wrap中子组件的新增操作
       current = [
         // 4、all中筛除已存在的表单，插入新的表单项，避免vdom.key重复渲染
@@ -88,75 +88,35 @@ function containerReducer<T>(state: T[], action: ICtRdr<T>) {
       ];
       break;
     case EEvt.ON_REMOVE:
-      console.log('--------', selected, parent);
-      console.log('删除节点操作');
       const isDeleteItem = (t: T) => t.itemId === toDelete.itemId && t.parentId === toDelete.parentId;
       current = allSelected.filter((t) => !isDeleteItem(t));
       break;
     default:
-      console.log('交换节点操作', selected);
       current = [...allSelected.filter((t) => selected.findIndex((f) => f.itemId === t.itemId) === -1), ...selected];
   }
 
   allSelected = current;
-  // console.log(state, selected, allSelected);
+  console.log(allSelected);
   const [tree, map] = arrayToTree<T>(current, null);
-  // console.log('tree', tree, map);
   return tree;
 }
 
 export default function Index() {
   const [components, setComponents] = useState<ItemType[]>(component);
   const [containerState, dispatchContainer] = useReducer(containerReducer<ItemType>, initContainer);
-  const containerRef = useRef();
+  const [showDispose, setDispose] = useState<boolean>(false);
 
-  const diffComponent = (selected: ItemType[], eventType: EEvt, parent?: ItemType, toDelete?: T) => {
-    if (!selected.length && !!parent) {
-      // return;
-    }
+  const diffComponent = (selected: ItemType[], eventType: EEvt, parent?: ItemType, toDelete?: ItemType) => {
     // 2、创建数组递归收集所有表单，用itemId和parentId关联
     // * 深拷贝select防止对象引用导致dom.key重复
     const cloneParent = _cloneDeep(parent);
     const cloneSelected = _cloneDeep(selected);
     const tempSelected = mapSelected<ItemType>(cloneSelected, cloneParent);
-    console.log(`操作${eventType}`, tempSelected, cloneParent);
     dispatchContainer({
       eventType,
       selected: tempSelected,
       toDelete,
-      parent: cloneParent,
     });
-    if (parent) {
-      // console.log('子级操作', tempSelected, parent.children);
-      // if (eventType === EEvt.ON_ADD) {
-      //   console.log('子级新增操作', selected, tempSelected);
-      //   dispatchContainer({
-      //     eventType,
-      //     selected: tempSelected,
-      //     parent,
-      //   });
-      // } else if (eventType === EEvt.ON_REMOVE) {
-      //   // wrap中子组件的删除操作
-      //   console.log('子级删除操作', selected, tempSelected);
-      //   dispatchContainer({
-      //     eventType,
-      //     selected: tempSelected,
-      //     toDelete,
-      //     parent,
-      //   });
-      // }
-    } else {
-      // if (eventType === EEvt.ON_ADD) {
-      //   console.log('根级新增操作', selected, tempSelected);
-      //   dispatchContainer({
-      //     eventType,
-      //     selected: tempSelected,
-      //     parent,
-      //   });
-      // } else {
-      //   console.log('根级删除操作', selected, tempSelected);
-      // }
-    }
   };
 
   const findComp = (el: HTMLElement) => {
@@ -177,7 +137,8 @@ export default function Index() {
 
   const updateComponent = (evt: SortableEvent, target: ItemType[], parent?: ItemType) => {
     const { newDraggableIndex, oldDraggableIndex } = evt;
-    diffComponent(arraySwap(target, newDraggableIndex, oldDraggableIndex), EEvt.ON_UPDATE, parent);
+    const selected = arraySwap(_cloneDeep(target), oldDraggableIndex, newDraggableIndex);
+    diffComponent(selected, EEvt.ON_UPDATE, parent);
   };
 
   const removeComponent = (evt: SortableEvent, target: ItemType[], parent?: ItemType) => {
@@ -185,7 +146,6 @@ export default function Index() {
     const selected = target;
     const toDelete = selected[oldDraggableIndex];
     selected.splice(oldDraggableIndex, 1);
-    console.log('删除项', toDelete);
     diffComponent(selected, EEvt.ON_REMOVE, parent, toDelete);
   };
 
@@ -276,7 +236,6 @@ export default function Index() {
             pull: true,
             put: true,
           }}
-          ref={containerRef}
           swap
           list={containerState}
           onUpdate={(e) => {
@@ -296,8 +255,8 @@ export default function Index() {
         >
           {renderContainer(containerState)}
         </ReactSortable>
+        {showDispose && <div className='form-sandbox__dispose'></div>}
       </div>
-      <div className='form-sandbox__dispose'></div>
     </div>
   );
 }
