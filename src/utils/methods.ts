@@ -45,6 +45,25 @@ export function arrayToTree<T>(ary: T[], root: string | null): TAtot<T> {
   return [result, map];
 }
 
+export function mapSelected<T>(child: T[], parent: T): T[] {
+  const tempArr = [];
+  function map(arr: T[], parent: T) {
+    arr.forEach((s: T, idx: number) => {
+      s.itemId = s.itemId || getFormId();
+      s.parentId = s.parentId || parent?.itemId || null;
+      // nodeIndex始终根据遍历顺序
+      s.nodeIndex = idx;
+      if (s.compType === 'wrap') {
+        s.children = s.children || [];
+        map(s.children, s);
+      }
+      tempArr.push(s);
+    });
+  }
+  map(child, parent);
+  return tempArr;
+}
+
 export const mainKey = 'form-id';
 
 export function getFormId(e = 8) {

@@ -57,5 +57,6 @@ module.exports = {
         usePrettierrc: true,
       },
     ],
+    'no-use-before-define': ['error', { functions: false }],
   },
 };

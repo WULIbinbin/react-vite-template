@@ -1,14 +1,14 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unknown-property */
-import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { ReactSortable, ItemInterface, SortableEvent } from 'react-sortablejs';
+import { renderContainer } from './components/components';
 import _cloneDeep from 'lodash-es/cloneDeep';
-
-import { arrayToTree, getFormId, arraySwap, arrayDistinct } from '@/utils/methods';
+import { arrayToTree, arraySwap, mapSelected } from '@/utils/methods';
 
 import './index.less';
 
-interface ItemType extends ItemInterface {
+export interface ItemType extends ItemInterface {
   parentId?: string;
   compId: string;
   itemId?: string;
@@ -24,25 +24,6 @@ const component = [
   { compId: '3', compName: '下拉选择器', compType: 'selector' },
   { compId: '4', compName: '日期选择器', compType: 'date-picker' },
 ];
-
-function mapSelected<T>(child: T[], parent: T): T[] {
-  const tempArr = [];
-  function map(arr: T[], parent: T) {
-    arr.forEach((s: T, idx: number) => {
-      s.itemId = s.itemId || getFormId();
-      s.parentId = s.parentId || parent?.itemId || null;
-      // nodeIndex始终根据遍历顺序
-      s.nodeIndex = idx;
-      if (s.compType === 'wrap') {
-        s.children = s.children || [];
-        map(s.children, s);
-      }
-      tempArr.push(s);
-    });
-  }
-  map(child, parent);
-  return tempArr;
-}
 
 /**
  * 组件嵌套
@@ -96,7 +77,6 @@ function containerReducer<T>(state: T[], action: ICtRdr<T>) {
   }
 
   allSelected = current;
-  console.log(allSelected);
   const [tree, map] = arrayToTree<T>(current, null);
   return tree;
 }
@@ -149,50 +129,39 @@ export default function Index() {
     diffComponent(selected, EEvt.ON_REMOVE, parent, toDelete);
   };
 
-  function renderContainer(current: ItemType[]) {
+  function renderChildContainer(item) {
     return (
-      current &&
-      current.map((item) =>
-        item.compType === 'wrap' ? (
-          <div key={item.itemId} comp-type={item.compType}>
-            <ReactSortable
-              tag={'div'}
-              className={`form-sandbox__payground--wrap`}
-              group={{
-                name: 'component',
-                pull: true,
-                put: true,
-              }}
-              swap
-              direction={'horizontal'}
-              fallbackOnBody={true}
-              swapThreshold={1}
-              animation={200}
-              list={item.children}
-              onUpdate={(e) => {
-                console.log('child-onUpdate操作------------------->');
-                updateComponent(e, item.children, item);
-              }}
-              onAdd={(e) => {
-                console.log('child-onAdd操作------------------->');
-                addComponent(e, item.children, item);
-              }}
-              onRemove={(e) => {
-                console.log('child-onRemove操作------------------->');
-                removeComponent(e, item.children, item);
-              }}
-              // 废弃，用on-event代替
-              setList={() => {}}
-            >
-              {(item.children && renderContainer(item.children)) || null}
-            </ReactSortable>
-          </div>
-        ) : (
-          <div key={item.itemId} comp-type={item.compType} className={`form-sandbox__payground--item`}>
-            <input type='text' placeholder={item.compName} />
-          </div>
-        ),
-      )
+      <ReactSortable
+        tag={'div'}
+        className={`form-sandbox__payground--wrap`}
+        group={{
+          name: 'component',
+          pull: true,
+          put: true,
+        }}
+        swap
+        direction={'horizontal'}
+        fallbackOnBody={true}
+        swapThreshold={1}
+        animation={200}
+        list={item.children}
+        onUpdate={(e) => {
+          console.log('child-onUpdate操作------------------->');
+          updateComponent(e, item.children, item);
+        }}
+        onAdd={(e) => {
+          console.log('child-onAdd操作------------------->');
+          addComponent(e, item.children, item);
+        }}
+        onRemove={(e) => {
+          console.log('child-onRemove操作------------------->');
+          removeComponent(e, item.children, item);
+        }}
+        // 废弃，用on-event代替
+        setList={() => {}}
+      >
+        {(item.children && renderContainer(item.children, renderChildContainer)) || null}
+      </ReactSortable>
     );
   }
 
@@ -237,6 +206,10 @@ export default function Index() {
             put: true,
           }}
           swap
+          direction={'horizontal'}
+          fallbackOnBody={true}
+          swapThreshold={1}
+          animation={200}
           list={containerState}
           onUpdate={(e) => {
             console.log('container-onUpdate操作------------------->');
@@ -253,7 +226,7 @@ export default function Index() {
           // 废弃，用on-event代替
           setList={() => {}}
         >
-          {renderContainer(containerState)}
+          {renderContainer(containerState, renderChildContainer)}
         </ReactSortable>
         {showDispose && <div className='form-sandbox__dispose'></div>}
       </div>
