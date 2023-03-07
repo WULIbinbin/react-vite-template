@@ -3,7 +3,7 @@ const wrap = [
     label: '布局',
     type: 'radio',
     name: 'layout',
-    defaultValue:'single',
+    defaultValue: 'single',
     options: [
       { label: '单列', value: 'single' },
       { label: '多列', value: 'multi' },

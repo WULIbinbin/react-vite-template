@@ -15,6 +15,6 @@
 - 表单管理
   - 表单设计
 
-有空就更新
+不定期更新
 
 [预览网页](https://wulibinbin.github.io/react-vite-template/)
