@@ -1,0 +1,26 @@
+export default [
+  {
+    compId: '2',
+    compName: '输入框',
+    compType: 'input',
+    chosen: false,
+    selected: false,
+    itemId: 'formId-Q2rezGsi',
+    parentId: null,
+    nodeIndex: 0,
+    formData: {},
+    children: [],
+  },
+  {
+    compId: '3',
+    compName: '下拉选择器',
+    compType: 'selector',
+    chosen: false,
+    selected: false,
+    itemId: 'formId-Ed2MGdaZ',
+    parentId: null,
+    nodeIndex: 1,
+    formData: {},
+    children: [],
+  },
+];

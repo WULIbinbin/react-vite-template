@@ -11,11 +11,13 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
     current &&
     current.map((item, idx) => {
       let comp = null;
+      const label = `${item.formData?.formName || item.compName}:${item.itemId}`;
+      const placeHolder = `${item.formData?.placeHolder || item.compName}`;
       switch (item.compType) {
         case 'wrap':
           comp = (
             <EventCover eventData={{ idx, parent, current }} noMask={true}>
-              <p>{item.compName}</p>
+              <p>{label}</p>
               {renderChild && renderChild(item)}
             </EventCover>
           );
@@ -23,8 +25,8 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
         case 'date-picker':
           comp = (
             <EventCover eventData={{ idx, parent, current }}>
-              <FormItem labelAlign='top' label={item.compName}>
-                <DatePicker mode='date' placeholder={item.compName} />
+              <FormItem labelAlign='top' label={label}>
+                <DatePicker mode='date' placeholder={placeHolder} />
               </FormItem>
             </EventCover>
           );
@@ -32,8 +34,8 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
         case 'selector':
           comp = (
             <EventCover eventData={{ idx, parent, current }}>
-              <FormItem labelAlign='top' label={item.compName}>
-                <Select options={[{ label: '选项一', value: '1' }]} placeholder={item.compName} />
+              <FormItem labelAlign='top' label={label}>
+                <Select options={[{ label: '选项一', value: '1' }]} placeholder={placeHolder} />
               </FormItem>
             </EventCover>
           );
@@ -41,8 +43,8 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
         default:
           comp = (
             <EventCover eventData={{ idx, parent, current }}>
-              <FormItem labelAlign='top' label={item.compName}>
-                <Input readonly placeholder={item.compName} />
+              <FormItem labelAlign='top' label={label}>
+                <Input readonly placeholder={placeHolder} />
               </FormItem>
             </EventCover>
           );

@@ -16,7 +16,12 @@ export function anyAwait(func: TRun): Promise<TAwaitReturn> {
 }
 
 type TAtot<T> = [T[], { [key: string]: T }];
-
+/**
+ * 一维数组转树和hash
+ * @param ary 数组，parentId和itemId关联
+ * @param root 根级parentId
+ * @returns 树和hash
+ */
 export function arrayToTree<T>(ary: T[], root: string | null): TAtot<T> {
   const result = [];
   const map = {};
@@ -38,13 +43,17 @@ export function arrayToTree<T>(ary: T[], root: string | null): TAtot<T> {
           children: [],
         };
       }
-      console.log(item, item.nodeIndex);
       map[pid].children.splice(item.nodeIndex, 0, item);
     }
   }
   return [result, map];
 }
-
+/**
+ * 树转一位数组，每个元素都设置parentId和itemId等
+ * @param child 树
+ * @param parent 父级
+ * @returns
+ */
 export function mapSelected<T>(child: T[], parent: T): T[] {
   const tempArr = [];
   function map(arr: T[], parent: T) {
@@ -53,6 +62,7 @@ export function mapSelected<T>(child: T[], parent: T): T[] {
       s.parentId = s.parentId || parent?.itemId || null;
       // nodeIndex始终根据遍历顺序
       s.nodeIndex = idx;
+      s.formData = s.formData || {};
       if (s.compType === 'wrap') {
         s.children = s.children || [];
         map(s.children, s);
@@ -64,8 +74,12 @@ export function mapSelected<T>(child: T[], parent: T): T[] {
   return tempArr;
 }
 
-export const mainKey = 'form-id';
-
+export const mainKey = 'formId';
+/**
+ * 生成唯一的id
+ * @param e 默认8位
+ * @returns id
+ */
 export function getFormId(e = 8) {
   const t = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';
   const a = t.length;

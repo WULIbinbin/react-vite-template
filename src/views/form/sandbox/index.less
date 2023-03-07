@@ -4,9 +4,17 @@
     height: 100%;
   }
   &__components {
-    width: 200px;
     .flex-column-start();
+    width: 200px;
     flex-wrap: wrap;
+    &--title {
+      height: 42px;
+      font-size: 18px;
+      text-align: center;
+      line-height: 30px;
+      width: 100%;
+      padding-right: 20px;
+    }
     &--item {
       width: 180px;
       height: 40px;
@@ -26,14 +34,7 @@
   &__content {
     .flex-column-start();
     flex: 1;
-    background-color: #f7f7f7;
     position: relative;
-  }
-  &__dispose {
-    width: 240px;
-    position: absolute;
-    right: 0;
-    top: 0;
   }
   &__wrap {
     height: 140px;
@@ -42,8 +43,14 @@
     background-color: #fe9249;
   }
   &__payground {
+    background-color: #f7f7f7;
     height: 100%;
     width: 100%;
     padding: 10px;
+  }
+  &__operation {
+    .flex-row-start-end();
+    width: 100%;
+    height: 42px;
   }
 }

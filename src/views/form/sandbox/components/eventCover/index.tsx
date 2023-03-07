@@ -1,5 +1,5 @@
 import { TEventData } from '@/types/sandbox';
-import { RemoveObserver } from '../../observers';
+import { RemoveObserver, DisposeObserver } from '../../utils/observers';
 
 import './index.less';
 
@@ -10,13 +10,12 @@ interface IEventCover {
 }
 
 export default function Index({ noMask = false, children, eventData }: IEventCover) {
-  
   return (
     <div
       className={`form-sandbox__payground--item ${(!noMask && 'form-sandbox__payground--mask') || 'under-delete'}`}
       onClick={(e) => {
         e.stopPropagation();
-        console.log(eventData);
+        DisposeObserver.emit(eventData);
       }}
     >
       <div

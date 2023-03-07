@@ -2,14 +2,16 @@
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useReducer, useState } from 'react';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
+import { Button, DialogPlugin } from 'tdesign-react';
 import renderFormItem from './components/formItem';
 import _cloneDeep from 'lodash-es/cloneDeep';
 import { arrayToTree, arraySwap, mapSelected } from '@/utils/methods';
-import { ItemType, ICtRdr, EEvt } from '@/types/sandbox';
-import { FormContext } from './contexts';
-
+import { ItemType, ICtRdr, EEvt, TEventData } from '@/types/sandbox';
+import { FormContext } from './utils/contexts';
+import { RemoveObserver, DisposeObserver } from './utils/observers';
+import Dispose from './components/dispose';
+import defaultFormData from './utils/defaultFormData';
 import './index.less';
-import { RemoveObserver } from './observers';
 
 const component = [
   { compId: '1', compName: '栅格', compType: 'wrap' },
@@ -34,36 +36,35 @@ const component = [
  */
 interface IInitContainer {
   value: ItemType[];
-  hash: {
-    // [key as string]: ItemType;
-  };
+  hash: { [key: string]: ItemType };
 }
+
+const cloneDefaultData = _cloneDeep(defaultFormData);
 const initContainer: IInitContainer = {
-  value: [],
+  value: cloneDefaultData,
   hash: {},
 };
 let allSelected = [];
 
-function containerReducer<T extends ItemType>(state: T[], action: ICtRdr<T>) {
+function containerReducer<T extends ItemType>(state: IInitContainer, action: ICtRdr<T>) {
   let current: T[];
   const { eventType, selected, toDelete } = action;
   switch (eventType) {
-    case EEvt.ON_ADD:
-      // wrap中子组件的新增操作
-      current = [
-        // 4、all中筛除已存在的表单，插入新的表单项，避免vdom.key重复渲染
-        ...allSelected.filter((t) => selected.findIndex((f) => f.itemId === t.itemId) === -1),
-        ...selected,
-      ];
+    case EEvt.ON_RESET:
+      current = selected;
       break;
     case EEvt.ON_REMOVE:
       const isDeleteItem = (t: T) => t.itemId === toDelete.itemId && t.parentId === toDelete.parentId;
       current = allSelected.filter((t) => !isDeleteItem(t));
       break;
     default:
-      current = [...allSelected.filter((t) => selected.findIndex((f) => f.itemId === t.itemId) === -1), ...selected];
+      // wrap中子组件的新增操作
+      current = [
+        // 4、all中筛除已存在的表单，插入新的表单项，避免vdom.key重复渲染
+        ...allSelected.filter((t) => selected.findIndex((f) => f.itemId === t.itemId) === -1),
+        ...selected,
+      ];
   }
-
   allSelected = current;
   const [tree, map] = arrayToTree<T>(current, null);
   return {
@@ -75,7 +76,8 @@ function containerReducer<T extends ItemType>(state: T[], action: ICtRdr<T>) {
 export default function Index() {
   const [components, setComponents] = useState<ItemType[]>(component);
   const [containerState, dispatchContainer] = useReducer(containerReducer, initContainer);
-  const [showDispose, setDispose] = useState<boolean>(false);
+  const [showDispose, toggleDispose] = useState<boolean>(false);
+  const [currentDispose, selectDispose] = useState<TEventData>({} as TEventData);
 
   const diffComponent = (selected: ItemType[], eventType: EEvt, parent?: ItemType, toDelete?: ItemType) => {
     // 2、创建数组递归收集所有表单，用itemId和parentId关联
@@ -120,7 +122,31 @@ export default function Index() {
     diffComponent(selected, EEvt.ON_REMOVE, parent, toDelete);
   };
 
-  const setFormData = () => {};
+  const resetComponent = () => {
+    dispatchContainer({
+      eventType: EEvt.ON_RESET,
+      selected: cloneDefaultData,
+    });
+  };
+
+  const postFormData = () => {
+    console.log(containerState.value);
+  };
+
+  const resetFormData = () => {
+    const cfDialog = DialogPlugin.confirm({
+      header: '提示',
+      body: '确认重置表单吗？',
+      theme: 'warning',
+      onConfirm: () => {
+        resetComponent();
+        cfDialog.hide();
+      },
+      onClose: () => {
+        cfDialog.hide();
+      },
+    });
+  };
 
   function renderChildContainer(item) {
     return (
@@ -163,16 +189,22 @@ export default function Index() {
       console.log('删除操作来源：', o);
       removeComponent({ oldDraggableIndex: o.idx } as SortableEvent, o.current, o.parent);
     });
+    DisposeObserver.watch((o) => {
+      toggleDispose(true);
+      selectDispose(o);
+    });
+    console.log(containerState);
     return () => {
       RemoveObserver.destroy();
+      DisposeObserver.destroy();
     };
   }, [containerState.value]);
 
   return (
-    // 这层Provider多此一举了
     <FormContext.Provider value={{ containerState }}>
       <div className='form-sandbox__main'>
         <div className='form-sandbox__components'>
+          <p className='form-sandbox__components--title'>选择组件</p>
           <ReactSortable
             tag={'div'}
             group={{
@@ -198,6 +230,14 @@ export default function Index() {
           </ReactSortable>
         </div>
         <div className='form-sandbox__content'>
+          <div className='form-sandbox__operation'>
+            <Button theme='primary' type='submit' style={{ marginRight: 10 }} onClick={postFormData}>
+              提交
+            </Button>
+            <Button type='reset' onClick={resetFormData}>
+              重置
+            </Button>
+          </div>
           <ReactSortable
             tag={'div'}
             className='form-sandbox__payground'
@@ -229,7 +269,14 @@ export default function Index() {
           >
             {renderFormItem(containerState.value, { renderChild: renderChildContainer })}
           </ReactSortable>
-          {showDispose && <div className='form-sandbox__dispose'></div>}
+          {showDispose && (
+            <Dispose
+              data={currentDispose}
+              onClose={() => {
+                toggleDispose(false);
+              }}
+            />
+          )}
         </div>
       </div>
     </FormContext.Provider>

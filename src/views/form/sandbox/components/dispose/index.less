@@ -1,0 +1,22 @@
+.form-sandbox {
+  &__dispose {
+    height: 100%;
+    width: 240px;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 2px 2px #e2e2e2;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 99;
+
+  }
+  &__tform{
+    .flex-column-stretch();
+    height: 100%;
+  }
+  &__form{
+    flex: 1;
+    overflow-y: scroll;
+  }
+}
