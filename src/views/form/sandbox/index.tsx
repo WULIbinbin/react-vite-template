@@ -1,24 +1,15 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unknown-property */
-import { useContext, useEffect, useReducer, useState } from 'react';
-import { ReactSortable, ItemInterface, SortableEvent } from 'react-sortablejs';
-import { renderContainer } from './components/components';
+import { useEffect, useReducer, useState } from 'react';
+import { ReactSortable, SortableEvent } from 'react-sortablejs';
+import renderFormItem from './components/formItem';
 import _cloneDeep from 'lodash-es/cloneDeep';
 import { arrayToTree, arraySwap, mapSelected } from '@/utils/methods';
+import { ItemType, ICtRdr, EEvt } from '@/types/sandbox';
+import { FormContext } from './contexts';
 
 import './index.less';
-import { Observer } from '@/utils/observer';
-import { EventContext } from './ctx';
-
-export interface ItemType extends ItemInterface {
-  parentId?: string;
-  compId: string;
-  itemId?: string;
-  compName: string;
-  compType: string;
-  nodeIndex?: number;
-  children?: ItemType[];
-}
+import { RemoveObserver } from './observers';
 
 const component = [
   { compId: '1', compName: '栅格', compType: 'wrap' },
@@ -41,26 +32,19 @@ const component = [
  *    2.1、把子组件抽取到父同级组件，父组件onAdd的调用早于子组件onRemove
  *    2.2、把父同级组件抽取到子组件，子组件onAdd的调用早于父组件onRemove
  */
-/**
- * sortable-event事件
- */
-enum EEvt {
-  ON_ADD = 'add',
-  ON_REMOVE = 'remove',
-  ON_UPDATE = 'update',
+interface IInitContainer {
+  value: ItemType[];
+  hash: {
+    // [key as string]: ItemType;
+  };
 }
-interface ICtRdr<T> {
-  eventType: EEvt;
-  selected: T[];
-  toDelete?: T;
-}
-
-const initContainer = [];
+const initContainer: IInitContainer = {
+  value: [],
+  hash: {},
+};
 let allSelected = [];
 
-const RemoveObserver = new Observer();
-
-function containerReducer<T>(state: T[], action: ICtRdr<T>) {
+function containerReducer<T extends ItemType>(state: T[], action: ICtRdr<T>) {
   let current: T[];
   const { eventType, selected, toDelete } = action;
   switch (eventType) {
@@ -82,12 +66,15 @@ function containerReducer<T>(state: T[], action: ICtRdr<T>) {
 
   allSelected = current;
   const [tree, map] = arrayToTree<T>(current, null);
-  return tree;
+  return {
+    value: tree,
+    hash: map,
+  };
 }
 
 export default function Index() {
   const [components, setComponents] = useState<ItemType[]>(component);
-  const [containerState, dispatchContainer] = useReducer(containerReducer<ItemType>, initContainer);
+  const [containerState, dispatchContainer] = useReducer(containerReducer, initContainer);
   const [showDispose, setDispose] = useState<boolean>(false);
 
   const diffComponent = (selected: ItemType[], eventType: EEvt, parent?: ItemType, toDelete?: ItemType) => {
@@ -133,6 +120,8 @@ export default function Index() {
     diffComponent(selected, EEvt.ON_REMOVE, parent, toDelete);
   };
 
+  const setFormData = () => {};
+
   function renderChildContainer(item) {
     return (
       <ReactSortable
@@ -164,7 +153,7 @@ export default function Index() {
         // 废弃，用on-event代替
         setList={() => {}}
       >
-        {(item.children && renderContainer(item.children, { renderChild: renderChildContainer,parent:item })) || null}
+        {(item.children && renderFormItem(item.children, { renderChild: renderChildContainer, parent: item })) || null}
       </ReactSortable>
     );
   }
@@ -177,10 +166,11 @@ export default function Index() {
     return () => {
       RemoveObserver.destroy();
     };
-  }, [containerState]);
+  }, [containerState.value]);
 
   return (
-    <EventContext.Provider value={{ RemoveObserver }}>
+    // 这层Provider多此一举了
+    <FormContext.Provider value={{ containerState }}>
       <div className='form-sandbox__main'>
         <div className='form-sandbox__components'>
           <ReactSortable
@@ -221,27 +211,27 @@ export default function Index() {
             fallbackOnBody={true}
             swapThreshold={1}
             animation={200}
-            list={containerState}
+            list={containerState.value}
             onUpdate={(e) => {
               console.log('container-onUpdate操作------------------->');
-              updateComponent(e, containerState, null);
+              updateComponent(e, containerState.value, null);
             }}
             onAdd={(e) => {
               console.log('container-onAdd操作------------------->');
-              addComponent(e, containerState, null);
+              addComponent(e, containerState.value, null);
             }}
             onRemove={(e) => {
               console.log('container-onRemove操作------------------->');
-              removeComponent(e, containerState, null);
+              removeComponent(e, containerState.value, null);
             }}
             // 废弃，用on-event代替
             setList={() => {}}
           >
-            {renderContainer(containerState, { renderChild: renderChildContainer })}
+            {renderFormItem(containerState.value, { renderChild: renderChildContainer })}
           </ReactSortable>
           {showDispose && <div className='form-sandbox__dispose'></div>}
         </div>
       </div>
-    </EventContext.Provider>
+    </FormContext.Provider>
   );
 }

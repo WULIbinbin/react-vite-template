@@ -1,0 +1,43 @@
+.box-hover() {
+  transition: border 0.1s ease;
+  &:hover {
+    border: 2px dotted #3573de;
+    cursor: move;
+  }
+}
+
+@box: form-sandbox__payground--box;
+@wrap: form-sandbox__payground--wrap;
+@item: form-sandbox__payground--item;
+
+.form-sandbox {
+  &__payground {
+    &--box {
+      width: 100%;
+      background-color: #ecf2fc;
+      padding: 10px 10px 0;
+      margin-bottom: 10px;
+      .box-hover();
+    }
+    &--wrap {
+      .flex-column-stretch();
+      width: 100%;
+      min-height: 56px;
+      padding: 8px 0 24px;
+      position: relative;
+      z-index: 1;
+      .@{item} {
+        border: 2px solid #fff;
+        padding:0 10px;
+      }
+    }
+    &--item {
+      position: relative;
+      .flex-column-stretch();
+      .t-date-picker,
+      .t-date-range-picker {
+        width: 100%;
+      }
+    }
+  }
+}
