@@ -13,10 +13,11 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
       let comp = null;
       const label = `${item.formData?.formName || item.compName}:${item.itemId}`;
       const placeHolder = `${item.formData?.placeHolder || item.compName}`;
+      const eventData = { idx, parent, current };
       switch (item.compType) {
         case 'wrap':
           comp = (
-            <EventCover eventData={{ idx, parent, current }} noMask={true}>
+            <EventCover eventData={eventData} noMask={true}>
               <p>{label}</p>
               {renderChild && renderChild(item)}
             </EventCover>
@@ -24,7 +25,7 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
           break;
         case 'date-picker':
           comp = (
-            <EventCover eventData={{ idx, parent, current }}>
+            <EventCover eventData={eventData}>
               <FormItem labelAlign='top' label={label}>
                 <DatePicker mode='date' placeholder={placeHolder} />
               </FormItem>
@@ -33,7 +34,7 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
           break;
         case 'selector':
           comp = (
-            <EventCover eventData={{ idx, parent, current }}>
+            <EventCover eventData={eventData}>
               <FormItem labelAlign='top' label={label}>
                 <Select options={[{ label: '选项一', value: '1' }]} placeholder={placeHolder} />
               </FormItem>
@@ -42,7 +43,7 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
           break;
         default:
           comp = (
-            <EventCover eventData={{ idx, parent, current }}>
+            <EventCover eventData={eventData}>
               <FormItem labelAlign='top' label={label}>
                 <Input readonly placeholder={placeHolder} />
               </FormItem>
@@ -50,7 +51,7 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
           );
       }
       return (
-        <div className={`form-sandbox__payground--box`} key={item.itemId} comp-type={item.compType}>
+        <div className={`form-sandbox__payground__box`} key={item.itemId} comp-type={item.compType}>
           {comp}
         </div>
       );

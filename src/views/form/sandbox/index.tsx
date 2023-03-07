@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useReducer, useState } from 'react';
+import classnames from 'classnames';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
 import { Button, DialogPlugin } from 'tdesign-react';
 import renderFormItem from './components/formItem';
@@ -148,11 +149,14 @@ export default function Index() {
     });
   };
 
-  function renderChildContainer(item) {
+  function renderChildContainer(item: ItemType) {
     return (
       <ReactSortable
         tag={'div'}
-        className={`form-sandbox__payground--wrap`}
+        className={classnames(
+          `form-sandbox__payground__wrap`,
+          `form-sandbox__payground__wrap--direction--${item.formData?.layout}`,
+        )}
         group={{
           name: 'component',
           pull: true,
@@ -220,7 +224,7 @@ export default function Index() {
           >
             {components.map((item) => (
               <div
-                className={`form-sandbox__components--item form-sandbox__components--${item.compType}`}
+                className={`form-sandbox__components__item form-sandbox__components--${item.compType}`}
                 key={item.compId}
                 comp-type={item.compType}
               >

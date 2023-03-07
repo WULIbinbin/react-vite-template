@@ -12,7 +12,7 @@ interface IEventCover {
 export default function Index({ noMask = false, children, eventData }: IEventCover) {
   return (
     <div
-      className={`form-sandbox__payground--item ${(!noMask && 'form-sandbox__payground--mask') || 'under-delete'}`}
+      className={`form-sandbox__payground__item ${(!noMask && 'form-sandbox__payground--mask') || 'under-delete'}`}
       onClick={(e) => {
         e.stopPropagation();
         DisposeObserver.emit(eventData);

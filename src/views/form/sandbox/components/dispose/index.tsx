@@ -1,6 +1,7 @@
-import { Button, Form, Input } from 'tdesign-react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Button, Form, Input, Radio } from 'tdesign-react';
 import { ItemType, TEventData } from '@/types/sandbox';
-import { useEffect, useRef, useState } from 'react';
+import disposeConfig from '../../utils/disposeConfig';
 
 import './index.less';
 
@@ -14,14 +15,49 @@ const { FormItem } = Form;
 export default function Index(props: TProps) {
   const [disposeData, setDispose] = useState<ItemType>({} as ItemType);
   const formRef = useRef();
-  const onSubmit = (e) => {
-    if (e.validateResult === true) {
-      const ref = formRef.current;
-      const data = ref.getFieldsValue(['formName', 'placeHolder']);
-      Object.assign(disposeData.formData, data);
-      props.onClose();
-    }
+  const onSubmit = async (e) => {
+    const ref = formRef.current;
+    ref.validate().then((res) => {
+      if (res === true) {
+        const data = ref.getFieldsValue(true);
+        Object.assign(disposeData.formData, data);
+        console.log('表单项修改：', disposeData);
+        props.onClose();
+      }
+    });
   };
+
+  const RenderDisposeForm = useMemo(
+    () =>
+      disposeConfig[disposeData.compType]?.map((c, k) => {
+        let formItem = null;
+        const { formData, itemId } = disposeData;
+        const key = `${itemId}-dispose-${k}`;
+        const { options, defaultValue } = c;
+        switch (c.type) {
+          case 'radio':
+            formItem = (
+              <Radio.Group value={formData[c.name] || defaultValue}>
+                {options.map((o, i) => (
+                  <Radio defaultChecked={formData[c.name] === o.value} key={`${key}-${o.value}`} value={o.value}>
+                    {o.label}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            );
+            break;
+          default:
+            formItem = <Input />;
+        }
+        return (
+          <FormItem key={key} label={c.label} name={c.name}>
+            {formItem}
+          </FormItem>
+        );
+      }),
+    [disposeData.compType],
+  );
+
   useEffect(() => {
     const { idx, current } = props.data;
     const ref = formRef.current;
@@ -30,23 +66,18 @@ export default function Index(props: TProps) {
     setDispose(current[idx]);
     if (!formData) return;
     ref.setFieldsValue(formData);
-  }, [props.data, disposeData]);
+  }, [props.data, disposeData.formData]);
   return (
     <div className='form-sandbox__dispose'>
-      <Form className='form-sandbox__tform' ref={formRef} labelAlign={'top'} labelWidth={80} onSubmit={onSubmit}>
+      <Form className='form-sandbox__tform' ref={formRef} labelAlign={'top'} labelWidth={80}>
         <div className='form-sandbox__form'>
           <p>
             {disposeData.compName}:{disposeData.itemId}
           </p>
-          <FormItem label='表单名称' name='formName'>
-            <Input defaultValue={disposeData.formData?.formName} />
-          </FormItem>
-          <FormItem label='表单占位符' name='placeHolder'>
-            <Input defaultValue={disposeData.formData?.placeHolder} />
-          </FormItem>
+          {disposeData?.compType && RenderDisposeForm}
         </div>
         <FormItem style={{ marginLeft: 100 }}>
-          <Button theme='primary' type='submit' style={{ marginRight: 10 }}>
+          <Button theme='primary' style={{ marginRight: 10 }} onClick={onSubmit}>
             提交
           </Button>
           <Button theme='default' variant='base' type='reset' onClick={props.onClose}>
