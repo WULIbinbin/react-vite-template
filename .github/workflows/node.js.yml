@@ -26,11 +26,12 @@ jobs:
       - name: Install and Build
         run: |
           npm install
-          npm run-script build
+          npm run-script preview
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with: 
-          # ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BRANCH: gh-pages
-          FOLDER: build
-          BUILD_SCRIPT: npm install && npm run preview
+          FOLDER: docs
+          CLEAN: true
+          commit-message: 'Deploy by source'
