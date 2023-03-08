@@ -13,7 +13,7 @@ const FormSandbox = lazy(() => import(/* webpackChunkName: "form" */ '@/views/fo
 export const routes: IRouter[] = [
   {
     path: '*',
-    redirect: '/error/404',
+    redirect: '/index',
   },
   {
     path: '/error/:type',

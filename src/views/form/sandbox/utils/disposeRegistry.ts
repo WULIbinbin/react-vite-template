@@ -1,4 +1,6 @@
-const wrap = [
+import { IDisposeConfig } from '@/types/sandbox';
+
+const wrap: IDisposeConfig[] = [
   {
     label: '布局',
     type: 'radio',
@@ -11,7 +13,7 @@ const wrap = [
   },
 ];
 
-const input = [
+const input: IDisposeConfig[] = [
   {
     label: '表单名称',
     type: 'input',
@@ -24,7 +26,7 @@ const input = [
   },
 ];
 
-const selector = [
+const selector: IDisposeConfig[] = [
   {
     label: '表单名称',
     type: 'input',
@@ -37,7 +39,7 @@ const selector = [
   },
 ];
 
-const dataPicker = [
+const dataPicker: IDisposeConfig[] = [
   {
     label: '表单名称',
     type: 'input',

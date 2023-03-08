@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Form, Input, Radio } from 'tdesign-react';
 import { ItemType, TEventData } from '@/types/sandbox';
-import disposeConfig from '../../utils/disposeConfig';
+import disposeRegistry from '../../utils/disposeRegistry';
 
 import './index.less';
 
@@ -19,7 +19,7 @@ export default function Index(props: TProps) {
     const ref = formRef.current;
     ref.validate().then((res) => {
       if (res === true) {
-        const data = ref.getFieldsValue(true);
+        const data: TEventData = ref.getFieldsValue(true);
         Object.assign(disposeData.formData, data);
         console.log('表单项修改：', disposeData);
         props.onClose();
@@ -29,7 +29,7 @@ export default function Index(props: TProps) {
 
   const RenderDisposeForm = useMemo(
     () =>
-      disposeConfig[disposeData.compType]?.map((c, k) => {
+      disposeRegistry[disposeData.compType]?.map((c, k) => {
         let formItem = null;
         const { formData, itemId } = disposeData;
         const key = `${itemId}-dispose-${k}`;

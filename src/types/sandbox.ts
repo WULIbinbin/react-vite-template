@@ -1,4 +1,5 @@
 import { ItemInterface } from 'react-sortablejs';
+import { RadioOption, CheckboxOption } from 'tdesign-react';
 
 export type TFormData = {
   layout?: 'row' | 'column';
@@ -33,3 +34,11 @@ export interface ItemType extends ItemInterface {
 }
 
 export type TEventData = { idx: number; parent: ItemType | null; current: ItemType[] };
+
+export interface IDisposeConfig {
+  label: string;
+  type: string;
+  name: string;
+  defaultValue?: any;
+  options?: RadioOption[] | CheckboxOption[];
+}
