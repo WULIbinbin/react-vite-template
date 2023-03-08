@@ -5,27 +5,32 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['master']
   pull_request:
-    branches: [ "master" ]
+    branches: ['master']
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run preview --if-present
-    - run: npm test
+      - name: Checkout
+        uses: actions/checkout@master
+        with:
+          persist-credentials: false
+      - name: Install and Build
+        run: |
+          npm install
+          npm run-script build
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with: 
+          # ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: build
+          BUILD_SCRIPT: npm install && npm run preview
