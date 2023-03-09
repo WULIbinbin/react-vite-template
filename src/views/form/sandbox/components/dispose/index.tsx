@@ -77,11 +77,14 @@ export default function Index({ onClose, data, visible }: TProps) {
       onClose={onClose}
       onConfirm={onSubmit}
     >
-      <div className='form-sandbox__dispose'>
-        <Form ref={formRef} labelAlign={'top'} labelWidth={80}>
-          {disposeData?.compType && RenderDisposeForm}
-        </Form>
-      </div>
+      {/* 重新加载，避免表单缓存 */}
+      {visible && (
+        <div className='form-sandbox__dispose'>
+          <Form ref={formRef} labelAlign={'top'} labelWidth={80}>
+            {disposeData?.compType && RenderDisposeForm}
+          </Form>
+        </div>
+      )}
     </Drawer>
   );
 }

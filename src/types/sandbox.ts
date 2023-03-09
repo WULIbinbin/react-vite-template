@@ -17,7 +17,7 @@ export enum EEvt {
   ON_RESET = 'reset',
 }
 export interface ICtRdr<T> {
-  eventType: EEvt;
+  eventType?: EEvt;
   selected: T[];
   toDelete?: T;
 }

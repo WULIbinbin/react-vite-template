@@ -11,7 +11,12 @@ export default function renderFormItem(current: ItemType[], { renderChild, paren
     current &&
     current.map((item, idx) => {
       let comp = null;
-      const label = `${item.formData?.formName || item.compName}:${item.itemId}`;
+      const label = (
+        <>
+          <span>{item.formData?.formName || item.compName}</span>
+          <span className='form-sandbox__payground__idtext'>{item.itemId}</span>
+        </>
+      );
       const placeHolder = `${item.formData?.placeHolder || item.compName}`;
       const eventData = { idx, parent, current };
       switch (item.compType) {

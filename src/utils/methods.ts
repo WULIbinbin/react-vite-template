@@ -54,7 +54,8 @@ export function arrayToTree<T>(ary: T[], root: string | null): TAtot<T> {
  * @param parent 父级
  * @returns
  */
-export function mapSelected<T>(child: T[], parent: T): T[] {
+export function mapSelected<T>(child: T[], mainParent: T): T[] {
+  if (!child) return [];
   const tempArr = [];
   function map(arr: T[], parent: T) {
     arr.forEach((s: T, idx: number) => {
@@ -70,7 +71,7 @@ export function mapSelected<T>(child: T[], parent: T): T[] {
       tempArr.push(s);
     });
   }
-  map(child, parent);
+  map(child, mainParent);
   return tempArr;
 }
 

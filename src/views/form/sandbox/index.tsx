@@ -40,16 +40,18 @@ interface IInitContainer {
   hash: { [key: string]: ItemType };
 }
 
+const STORAGE_KEY = 'container_data';
+
 const cloneDefaultData = _cloneDeep(defaultFormData);
 const initContainer: IInitContainer = {
-  value: cloneDefaultData,
+  value: [],
   hash: {},
 };
 let allSelected = [];
 
 function containerReducer<T extends ItemType>(state: IInitContainer, action: ICtRdr<T>) {
   let current: T[];
-  const { eventType, selected, toDelete } = action;
+  const { eventType = '', selected, toDelete } = action;
   switch (eventType) {
     case EEvt.ON_RESET:
       current = selected;
@@ -80,11 +82,11 @@ export default function Index() {
   const [showDispose, toggleDispose] = useState<boolean>(false);
   const [currentDispose, selectDispose] = useState<TEventData>({} as TEventData);
 
-  const diffComponent = (selected: ItemType[], eventType: EEvt, parent?: ItemType, toDelete?: ItemType) => {
+  const diffComponent = (selected: ItemType[], eventType?: EEvt, parent?: ItemType, toDelete?: ItemType) => {
     // 2、创建数组递归收集所有表单，用itemId和parentId关联
     // * 深拷贝select防止对象引用导致dom.key重复
-    const cloneParent = _cloneDeep(parent);
-    const cloneSelected = _cloneDeep(selected);
+    const cloneParent = (parent && _cloneDeep(parent)) || null;
+    const cloneSelected = (selected.length && _cloneDeep(selected)) || [];
     const tempSelected = mapSelected<ItemType>(cloneSelected, cloneParent);
     dispatchContainer({
       eventType,
@@ -130,8 +132,8 @@ export default function Index() {
     });
   };
 
-  const postFormData = () => {
-    console.log(containerState.value);
+  const saveFormData = () => {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(containerState.value));
   };
 
   const resetFormData = () => {
@@ -197,12 +199,16 @@ export default function Index() {
       toggleDispose(true);
       selectDispose(o);
     });
-    console.log(containerState);
+    // 设置默认值
+    const storageData = sessionStorage.getItem(STORAGE_KEY);
+    diffComponent((storageData && JSON.parse(storageData)) || cloneDefaultData);
     return () => {
+      allSelected = [];
+      diffComponent([]);
       RemoveObserver.destroy();
       DisposeObserver.destroy();
     };
-  }, [containerState.value]);
+  }, []);
 
   return (
     <FormContext.Provider value={{ containerState }}>
@@ -235,8 +241,8 @@ export default function Index() {
         </div>
         <div className='form-sandbox__content'>
           <div className='form-sandbox__operation'>
-            <Button theme='primary' type='submit' style={{ marginRight: 10 }} onClick={postFormData}>
-              提交
+            <Button theme='primary' type='submit' style={{ marginRight: 10 }} onClick={saveFormData}>
+              保存
             </Button>
             <Button type='reset' onClick={resetFormData}>
               重置
