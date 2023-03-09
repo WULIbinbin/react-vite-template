@@ -1,27 +1,22 @@
-.componentArea{
-  width: 400px;
-  min-height: 400px;
-  background-color: aliceblue;
-  margin: 24px;
-  
-}
-.componentArea .ReactSortable{
-  min-height: 400px;
-  padding: 12px;
-}
-.drawArea{
-  width: 400px;
-  min-height: 400px;
-  margin: 24px;
-  background-color: black;
-}
-.drawArea .ReactSortable{
-  min-height: 400px;
-  padding: 12px;
-}
-.ReactSortableChild{
-  min-height: 100px;
-  padding: 12px;
-  border: 1px solid red;
-  background-color: #fff;
+.form-sandbox {
+  &__components {
+    .flex-column-start();
+    width: 200px;
+    flex-wrap: wrap;
+    &__item {
+      width: 180px;
+      height: 40px;
+      margin: 0 10px 10px 0;
+      background-color: #d4e3fc;
+      border: 1px solid #4787f0;
+      font-size: 14px;
+      color: #333;
+      text-align: center;
+      line-height: 40px;
+      &:hover,
+      &:focus {
+        cursor: move;
+      }
+    }
+  }
 }
