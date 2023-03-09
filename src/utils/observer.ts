@@ -9,7 +9,7 @@ export class Observer {
     this.subs.push(fn);
   }
 
-  emit(params) {
+  notify(params) {
     this.subs.forEach((fn) => {
       fn(params);
     });

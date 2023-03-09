@@ -15,14 +15,14 @@ export default function Index({ noMask = false, children, eventData }: IEventCov
       className={`form-sandbox__payground__item ${(!noMask && 'form-sandbox__payground--mask') || 'under-delete'}`}
       onClick={(e) => {
         e.stopPropagation();
-        DisposeObserver.emit(eventData);
+        DisposeObserver.notify(eventData);
       }}
     >
       <div
         className='form-sandbox__payground--delete'
         onClick={(e) => {
           e.stopPropagation();
-          RemoveObserver.emit(eventData);
+          RemoveObserver.notify(eventData);
         }}
       >
         -
