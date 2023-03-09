@@ -1,30 +1,31 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Form, Input, Radio } from 'tdesign-react';
+import { Form, Input, Radio, Drawer } from 'tdesign-react';
 import { ItemType, TEventData } from '@/types/sandbox';
 import disposeRegistry from '../../utils/disposeRegistry';
+import { anyAwait } from '@/utils/methods';
 
 import './index.less';
 
 type TProps = {
+  visible: boolean;
   data: TEventData;
   onClose?: () => void;
 };
 
 const { FormItem } = Form;
 
-export default function Index(props: TProps) {
+export default function Index({ onClose, data, visible }: TProps) {
   const [disposeData, setDispose] = useState<ItemType>({} as ItemType);
   const formRef = useRef();
-  const onSubmit = async (e) => {
+  const onSubmit = async () => {
     const ref = formRef.current;
-    ref.validate().then((res) => {
-      if (res === true) {
-        const data: TEventData = ref.getFieldsValue(true);
-        Object.assign(disposeData.formData, data);
-        console.log('表单项修改：', disposeData);
-        props.onClose();
-      }
-    });
+    const [, isValid] = await anyAwait(ref.validate());
+    if (isValid === true) {
+      const curFormData: TEventData = ref.getFieldsValue(true);
+      Object.assign(disposeData.formData, curFormData);
+      console.log('表单项修改：', disposeData);
+      onClose();
+    }
   };
 
   const RenderDisposeForm = useMemo(
@@ -59,32 +60,28 @@ export default function Index(props: TProps) {
   );
 
   useEffect(() => {
-    const { idx, current } = props.data;
+    const { idx, current } = data;
+    if (!current) return;
     const ref = formRef.current;
     const { formData } = current[idx];
     console.log('当前表单：', current[idx]);
     setDispose(current[idx]);
     if (!formData) return;
     ref.setFieldsValue(formData);
-  }, [props.data, disposeData.formData]);
+  }, [data, disposeData.formData]);
+
   return (
-    <div className='form-sandbox__dispose'>
-      <Form className='form-sandbox__tform' ref={formRef} labelAlign={'top'} labelWidth={80}>
-        <div className='form-sandbox__form'>
-          <p>
-            {disposeData.compName}:{disposeData.itemId}
-          </p>
+    <Drawer
+      header={`${disposeData.compName}:${disposeData.itemId}`}
+      visible={visible}
+      onClose={onClose}
+      onConfirm={onSubmit}
+    >
+      <div className='form-sandbox__dispose'>
+        <Form ref={formRef} labelAlign={'top'} labelWidth={80}>
           {disposeData?.compType && RenderDisposeForm}
-        </div>
-        <FormItem style={{ marginLeft: 100 }}>
-          <Button theme='primary' style={{ marginRight: 10 }} onClick={onSubmit}>
-            提交
-          </Button>
-          <Button theme='default' variant='base' type='reset' onClick={props.onClose}>
-            取消
-          </Button>
-        </FormItem>
-      </Form>
-    </div>
+        </Form>
+      </div>
+    </Drawer>
   );
 }

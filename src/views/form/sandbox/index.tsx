@@ -1,6 +1,6 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable react/no-unknown-property */
-import { useEffect, useReducer, useState } from 'react';
+import { SetStateAction, useEffect, useReducer, useState } from 'react';
 import classnames from 'classnames';
 import { ReactSortable, SortableEvent } from 'react-sortablejs';
 import { Button, DialogPlugin } from 'tdesign-react';
@@ -168,15 +168,15 @@ export default function Index() {
         swapThreshold={1}
         animation={200}
         list={item.children}
-        onUpdate={(e) => {
+        onUpdate={(e: any) => {
           console.log('child-onUpdate操作------------------->');
           updateComponent(e, item.children, item);
         }}
-        onAdd={(e) => {
+        onAdd={(e: any) => {
           console.log('child-onAdd操作------------------->');
           addComponent(e, item.children, item);
         }}
-        onRemove={(e) => {
+        onRemove={(e: any) => {
           console.log('child-onRemove操作------------------->');
           removeComponent(e, item.children, item);
         }}
@@ -189,11 +189,11 @@ export default function Index() {
   }
 
   useEffect(() => {
-    RemoveObserver.watch((o) => {
+    RemoveObserver.watch((o: { idx: any; current: ItemType[]; parent: ItemType }) => {
       console.log('删除操作来源：', o);
       removeComponent({ oldDraggableIndex: o.idx } as SortableEvent, o.current, o.parent);
     });
-    DisposeObserver.watch((o) => {
+    DisposeObserver.watch((o: SetStateAction<TEventData>) => {
       toggleDispose(true);
       selectDispose(o);
     });
@@ -218,8 +218,8 @@ export default function Index() {
             }}
             sort={false}
             list={components}
-            setList={(e) => {
-              setComponents(e);
+            setList={(data) => {
+              setComponents(data);
             }}
           >
             {components.map((item) => (
@@ -256,15 +256,15 @@ export default function Index() {
             swapThreshold={1}
             animation={200}
             list={containerState.value}
-            onUpdate={(e) => {
+            onUpdate={(e: any) => {
               console.log('container-onUpdate操作------------------->');
               updateComponent(e, containerState.value, null);
             }}
-            onAdd={(e) => {
-              console.log('container-onAdd操作------------------->');
+            onAdd={(e: any) => {
+              console.log('container-onAdd操作------------------->', e);
               addComponent(e, containerState.value, null);
             }}
-            onRemove={(e) => {
+            onRemove={(e: any) => {
               console.log('container-onRemove操作------------------->');
               removeComponent(e, containerState.value, null);
             }}
@@ -273,15 +273,14 @@ export default function Index() {
           >
             {renderFormItem(containerState.value, { renderChild: renderChildContainer })}
           </ReactSortable>
-          {showDispose && (
-            <Dispose
-              data={currentDispose}
-              onClose={() => {
-                toggleDispose(false);
-              }}
-            />
-          )}
         </div>
+        <Dispose
+          visible={showDispose}
+          data={currentDispose}
+          onClose={() => {
+            toggleDispose(false);
+          }}
+        />
       </div>
     </FormContext.Provider>
   );
