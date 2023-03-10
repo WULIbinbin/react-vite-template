@@ -16,6 +16,13 @@ export enum EEvt {
   ON_UPDATE = 'update',
   ON_RESET = 'reset',
 }
+
+export enum ECompType {
+  WRAP = 'wrap',
+  INPUT = 'input',
+  SELECTOR = 'selector',
+  DATE_PICKER = 'date-picker',
+}
 export interface ICtRdr<T> {
   eventType?: EEvt;
   selected: T[];
@@ -27,7 +34,7 @@ export interface ItemType extends ItemInterface {
   compId: string;
   itemId?: string;
   compName: string;
-  compType: string;
+  compType: ECompType;
   nodeIndex?: number;
   formData?: TFormData;
   children?: ItemType[];

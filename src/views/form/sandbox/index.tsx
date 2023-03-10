@@ -136,6 +136,8 @@ export default function Index() {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(containerState.value));
   };
 
+  const preview = () => {};
+
   const resetFormData = () => {
     const cfDialog = DialogPlugin.confirm({
       header: '提示',
@@ -241,7 +243,10 @@ export default function Index() {
         </div>
         <div className='form-sandbox__content'>
           <div className='form-sandbox__operation'>
-            <Button theme='primary' type='submit' style={{ marginRight: 10 }} onClick={saveFormData}>
+            <Button theme='primary' style={{ marginRight: 10 }} onClick={preview}>
+              预览
+            </Button>
+            <Button theme='primary' style={{ marginRight: 10 }} onClick={saveFormData}>
               保存
             </Button>
             <Button type='reset' onClick={resetFormData}>

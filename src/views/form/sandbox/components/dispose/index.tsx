@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Form, Input, Radio, Drawer } from 'tdesign-react';
 import { ItemType, TEventData } from '@/types/sandbox';
-import disposeRegistry from '../../utils/disposeRegistry';
+import disposeRegistry from '../../config/disposeRegistry';
 import { anyAwait } from '@/utils/methods';
 
 import './index.less';

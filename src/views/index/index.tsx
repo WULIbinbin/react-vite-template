@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 
-import './index.less'
+import './index.less';
 
 const component = [
   { id: 1, compName: '组件1' },
@@ -24,6 +24,9 @@ export default function Index() {
       setList={(data) => {
         console.log(data);
         setComponents(data);
+      }}
+      onUpdate={(e: any) => {
+        console.log('onUpdate操作------------------->', e);
       }}
     >
       {components.map((item) => (
