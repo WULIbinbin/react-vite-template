@@ -1,0 +1,82 @@
+Arguments: 
+  /Users/wuzhuobin/.nvm/versions/node/v16.19.0/bin/node /Users/wuzhuobin/Library/pnpm/global/5/node_modules/yarn/bin/yarn.js add @tiptap/react @tiptap/starter-kit
+
+PATH: 
+  /Library/Frameworks/Python.framework/Versions/2.7/bin:~/flutter/bin:/usr/local/sbin:/usr/local/bin:/Users/wuzhuobin/Library/pnpm:/Users/wuzhuobin/.nvm/versions/node/v16.19.0/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Library/Frameworks/Python.framework/Versions/2.7/bin:~/flutter/bin:/usr/local/sbin:/Users/wuzhuobin/Library/pnpm:/Users/wuzhuobin/.nvm/versions/node/v16.19.0/bin:/usr/local/etc/nginx/sbin:/usr/local/etc/nginx/sbin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.19.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/Users/wuzhuobin/Library/Caches/Yarn/v6/npm-globals-13.20.0-ea276a1e508ffd4f1612888f9d1bad1e2717bf82-integrity/node_modules/globals/globals.json' -> '/Users/wuzhuobin/Desktop/github/react-vite-template/node_modules/@eslint/eslintrc/node_modules/globals/globals.json'
+
+npm manifest: 
+  {
+    "name": "react-vite-template",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "dev": "vite serve --mode development",
+      "build": "vite build --mode production",
+      "preview": "vite build --mode production --outDir=docs",
+      "lint": "eslint ./src --ext ts,tsx",
+      "lint:fix": "eslint ./src --ext ts,tsx --fix",
+      "prepare": "husky install"
+    },
+    "author": "WULIbinbin",
+    "license": "ISC",
+    "devDependencies": {
+      "@types/react": "^18.0.17",
+      "@types/react-dom": "^18.0.6",
+      "@types/react-router-dom": "^5.3.3",
+      "eslint": "^8.3.0",
+      "eslint-config-airbnb-base": "^15.0.0",
+      "eslint-config-prettier": "^8.4.0",
+      "eslint-config-react-app": "^7.0.0",
+      "eslint-plugin-import": "^2.25.4",
+      "eslint-plugin-prettier": "^4.0.0",
+      "eslint-plugin-react": "^7.28.0",
+      "husky": "^8.0.1",
+      "jest": "^27.0.6",
+      "less": "^4.1.3",
+      "less-loader": "^11.0.0",
+      "mockjs": "^1.1.0",
+      "prettier": "^2.7.1",
+      "rollup-plugin-visualizer": "^5.8.1",
+      "typescript": "^4.7.4",
+      "vite": "^3.0.5",
+      "vite-plugin-mock": "^2.9.6",
+      "vite-plugin-webpackchunkname": "^0.1.1"
+    },
+    "dependencies": {
+      "@reduxjs/toolkit": "^1.8.5",
+      "@tiptap/react": "^2.0.3",
+      "@tiptap/starter-kit": "^2.0.3",
+      "@types/sortablejs": "^1.15.0",
+      "axios": "^0.27.2",
+      "classnames": "^2.3.2",
+      "lodash": "^4.17.21",
+      "lodash-es": "^4.17.21",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "react-redux": "^8.0.2",
+      "react-router-dom": "^6.3.0",
+      "react-sortablejs": "^6.1.4",
+      "sortablejs": "^1.15.0",
+      "tdesign-icons-react": "^0.1.6",
+      "tdesign-react": "^1.0.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

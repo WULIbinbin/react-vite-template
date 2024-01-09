@@ -38,6 +38,9 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
+    "@tiptap/pm": "^2.0.3",
+    "@tiptap/react": "^2.0.3",
+    "@tiptap/starter-kit": "^2.0.3",
     "@types/sortablejs": "^1.15.0",
     "axios": "^0.27.2",
     "classnames": "^2.3.2",
